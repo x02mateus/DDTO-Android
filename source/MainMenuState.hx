@@ -1,7 +1,5 @@
 package;
 
-// @todo: remover o easter egg e fazer um melhor, sla kek
-
 import Controls.KeyboardScheme;
 import haxe.Json;
 import lime.utils.Assets;
@@ -55,8 +53,9 @@ class MainMenuState extends MusicBeatState
 	var menu_character:FlxSprite;
 	var shaker:FlxSprite;
 	var addVally:Bool = false;
-
-	var chrsdavida:Array<String> = ['monika.chr', 'natsuki.chr', 'sayori.chr', 'yuri.chr'];
+	
+	// easter
+	// var chrsdavida:Array<String> = ['monika.chr', 'natsuki.chr', 'sayori.chr', 'yuri.chr'];
 
 	var backdrop:FlxBackdrop;
 	var logoBl:FlxSprite;
@@ -79,7 +78,7 @@ class MainMenuState extends MusicBeatState
 		FlxG.mouse.visible = true;
 		#end
 
-
+		/* easter
 		for (chr in chrsdavida){
 			if (!Paths.fileExists('characters/' + chr, BINARY, 'doki'))
 			{
@@ -89,7 +88,7 @@ class MainMenuState extends MusicBeatState
 					lime.system.System.exit(0);
 				});
 			}
-		}
+		}*/
 		if (!SaveData.beatPrologue)
 		{
 			SaveData.weekUnlocked = 1;
