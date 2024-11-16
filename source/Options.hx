@@ -423,18 +423,7 @@ class ScrollSpeedOption extends Option
 
 	override function getValue():String
 	{
-		var defaulttexto:String;
-		switch(SaveData.language) {
-			case "pt-BR":
-				defaulttexto = "Padrão da Música";
-			case "en-US":
-				defaulttexto = "Song Default";
-			case "es-ES":
-				defaulttexto = "Predeterminado (chart)"; // sla uai tava com preguiça de usar tradutor
-			default:
-				defaulttexto = "aaaaaaa";
-		}
-		var visualValue:String = SaveData.scrollSpeed < 1 ? '$defaulttexto' : Std.string(FlxMath.roundDecimal(SaveData.scrollSpeed, 1));
+		var visualValue:String = SaveData.scrollSpeed < 1 ? 'Padrão da Música' : Std.string(FlxMath.roundDecimal(SaveData.scrollSpeed, 1));
 		return LangUtil.getString('descCurScroll', 'option') + ': ' + visualValue;
 	}
 }
@@ -1064,6 +1053,7 @@ class JudgementCounter extends Option
 	}
 }
 
+#if FEATURE_LANGUAGE
 class LanguageSelection extends Option
 {
 	public function new(desc:String)
@@ -1074,15 +1064,16 @@ class LanguageSelection extends Option
 
 	public override function press():Bool
 	{
-		OptionsState.instance.openSubState(new LinguagensSubstate());
+		MusicBeatState.switchState(new LangSelectState());
 		return false;
 	}
 
 	private override function updateDisplay():String
 	{
-		return LangUtil.getString('cmnLanguage', 'data');
+		return LangUtil.getString('cmnLanguage');
 	}
 }
+#end
 
 class RatingToggle extends Option
 {

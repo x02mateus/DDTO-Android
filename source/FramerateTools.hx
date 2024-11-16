@@ -2,7 +2,6 @@ package;
 
 import flixel.FlxG;
 
-//sus
 /**
 	A set of functions designed to help with some framerate issues that could occur.
 **/

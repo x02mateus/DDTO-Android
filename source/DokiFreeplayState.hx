@@ -89,8 +89,6 @@ class DokiFreeplayState extends MusicBeatState
 		}
 	}
 
-	var pageTxt:String = "";
-
 	override function create()
 	{
 		allBeat = SaveData.checkAllSongsBeaten();
@@ -296,18 +294,11 @@ class DokiFreeplayState extends MusicBeatState
 		//Novamente fazendo coisas sem testar e sem ver os assets.
 		//Então é melhor lembrar de no final, trocar a skin do custom controls pela padrão usada na galeria.
 	
-		
-		switch(SaveData.language) {
-			case "pt-BR" | "es-ES":
-				pageTxt = "Página ";
-			case "en-US":
-				pageTxt = "Page ";
-		}
-		pageNum = new FlxText(580, 580, 0, pageTxt + Std.string(curPage + 1), 48);
+		pageNum = new FlxText(580, 580, 0, 'Página ' + Std.string(curPage + 1), 48);
 		pageNum.setFormat(LangUtil.getFont('riffic'), 48, FlxColor.WHITE, FlxTextAlign.CENTER);
 		pageNum.y += LangUtil.getFontOffset('riffic');
 		pageNum.setBorderStyle(OUTLINE, 0xFFF860B0, 2, 1);
-		pageNum.text = pageTxt + Std.string(curPage + 1);
+		pageNum.text = 'Página ' + Std.string(curPage + 1);
 		pageNum.alignment = FlxTextAlign.CENTER;
 		pageNum.updateHitbox();
 		pageNum.antialiasing = SaveData.globalAntialiasing;
@@ -384,9 +375,9 @@ class DokiFreeplayState extends MusicBeatState
 			grpSongs.forEach(function(spr:FlxText)
 			{
 				if (BSLTouchUtils.aperta(spr, spr.ID) == 'primeiro')
-					changeItem(spr.ID); //aqui ele selecionou pra trocar a diff
+					changeItem(spr.ID);
 				else if (BSLTouchUtils.aperta(spr, spr.ID) == 'segundo')
-					acceptDiferenciado = true; //aqui ele confirma
+					acceptDiferenciado = true;
 			});
 
 			if (BSLTouchUtils.apertasimples(diff))
@@ -446,15 +437,6 @@ class DokiFreeplayState extends MusicBeatState
 			if ((controls.RIGHT_P || BSLTouchUtils.apertasimples(rightArrow))&& !diffselect)
 				changePageHotkey(1, false);
 
-			if(diffselect) {
-				pageNum.visible = false;
-				leftArrow.visible = false;
-				rightArrow.visible = false;
-			} else {
-				pageNum.visible = true;
-				leftArrow.visible = true;
-				rightArrow.visible = true;
-			}
 			//Eu amo a Monka, mas as vezes ela é chatona man...
 
 			if (controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end)
@@ -465,6 +447,9 @@ class DokiFreeplayState extends MusicBeatState
 						diff.visible = false;
 						diffselect = false;
 						diffsuffix = '';
+						pageNum.visible = true;
+						rightArrow.visible=true;
+						leftArrow.visible=true;
 					case false:
 						selectedSomethin = true;
 						pageFlipped = false;
@@ -626,7 +611,6 @@ class DokiFreeplayState extends MusicBeatState
 
 	function changeDiff(change:Int = 0):Void
 	{
-		
 		diffsuffix = '';
 		curDifficulty += change;
 
@@ -670,9 +654,6 @@ class DokiFreeplayState extends MusicBeatState
 	function changeItem(change:Int = 6)
 	{
 		curSelected = change;
-
-		curDifficulty = 1;
-		changeDiff();
 
 		if ((curPage == 1 && !SaveData.beatEncore) || (curPage == 2 && !SaveData.beatPrologue))
 		{
@@ -721,23 +702,10 @@ class DokiFreeplayState extends MusicBeatState
 
 	function getSongData(songName:String, diff:Int)
 	{
-		var suffixChanged = false;
-
 		if (!multiDiff.contains(songName.toLowerCase()))
 			diff = 1;
 
-		if (songName.contains("-alt") && diffsuffix == "-alt")
-		{
-			diffsuffix = "";
-			suffixChanged = true;
-		}
-
 		intendedScore = Highscore.getScore(songName + diffsuffix, diff);
-
-		if (suffixChanged)
-		{
-			diffsuffix = "-alt";
-		}
 	}
 
 	function changePage(huh:Int = 0)

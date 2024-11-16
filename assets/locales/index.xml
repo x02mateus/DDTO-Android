@@ -20,10 +20,8 @@
 	<!-- Used for Story Menu & Pop-ups -->
 	<file id="story" value="weekNames.tsv"/>
 	<file id="story" value="unlockPopups.tsv"/>
-	
-	<!-- Usado para a tradução de coisas que ficaram faltando e eu fiquei com preguiça de organizar -->
-	<file id="extra" value="traducoesExtras.tsv"/>
-	
+
+
 	<!--Add locale entries here.
 
 	https://www.techonthenet.com/js/language_tags.php
@@ -34,24 +32,24 @@
 	4) Add any labels you want to display the language text in the menu
 	-->
 
-	<locale id="en-US" is_default="true">
-		<contributors value="DDTO+ team of translators (look in credits)"/>
-		<label id="pt-BR" language="Inglês (Estados Unidos)" region="Estados Unidos"/>
-		<label id="en-US" language="English (United States)" region="United States"/>
-		<label id="es-ES" language="Inglés (Estados Unidos)" region="Estados Unidos"/>
-	</locale>
-
-	<locale id="pt-BR">
+	<!-- Inglês sóq não -->
+	<locale id="en-US" is_default="true" sort="0">
 		<contributors value="Mega, Sem Nome, Noas, Demon Fever, Black Impostor, M&amp;M"/>
-		<label id="pt-BR" language="Português Brasileiro" region="Brasil"/>
-		<label id="en-US" language="Brazilian Portuguese" region="Brazil"/>
-		<label id="es-ES" language="Portugués de Brasil" region="Brasil"/>
+		<label id="en-US" language="Português Brasileiro" region="Brasil"/>
 	</locale>
 
-	<locale id="es-ES" is_default="false">
-		<contributors value="DDTO+ equipo de traductores (mira en los creditos)"/>
-		<label id="pt-BR" language="Espanhol (Estados Unidos)" region="Estados Unidos"/>
-		<label id="en-US" language="Spanish (United States)" region="United States"/>
-		<label id="es-ES" language="Español (Estados Unidos)" region="Estados Unidos"/>
-	</locale>
+	<!---
+	Any text blurbs that the translation interface itself needs are stored here rather than
+	in text files, to avoid the boot-strapping problem of having to load a locale in order
+	to display locale interface text in that locale.
+
+	A good practice is that this note should always display in the currently selected locale as
+	a tooltip over various translations.
+	-->
+
+	<note id="beta">
+		<!--This means that the translation has not been properly integrated yet-->
+		<text id="en-US" title="BETA" body="This translation is still in beta. Untranslated text, missing characters, and other visual glitches are very likely not the fault of the translator."/>
+	</note>
+
 </data>

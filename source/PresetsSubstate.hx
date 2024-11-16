@@ -29,9 +29,14 @@ class PresetsSubstate extends MusicBeatSubstate
 	var keyTextDisplay:FlxText;
 	var curSelected:Int = 0;
 
-	var judgementText:Array<String>;
+	var judgementText:Array<String> = ["Gama Alta (4GB+)", "Gama Média(3GB+)", "Gama Baja(2GB+)", "Voltar", ''];
 
-	var explicacoes:Array<String>;
+	var explicacoes:Array<String> = [
+		"Tudo do mod original estará ativado (recomendado para acima de 4 GB de RAM)", 
+		"A notificação de acerto não estará visível e irá estabilizar o FPS (recomendado para 3 GB de RAM)", 
+		"Removerá detalhes consideráveis do jogo, mas ainda poderá acompanhar a história principal (recomendado para 2 GB de RAM)", 
+		"Você não estará escolhendo nenhum preset. Clique novamente para voltar ao menu.",
+		''];
 
 	var blackBox:FlxSprite;
 	var infoText:FlxText;
@@ -41,35 +46,6 @@ class PresetsSubstate extends MusicBeatSubstate
 	override function create()
 	{
 		persistentUpdate = persistentDraw = true;
-
-		switch(SaveData.language) {
-			case "pt-BR":
-				judgementText = ["Gama Alta (4GB+)", "Gama Média(3GB+)", "Gama Baja(2GB+)", "Voltar", ''];
-				explicacoes = [
-				"Tudo do mod original estará ativado (recomendado para acima de 4 GB de RAM)", 
-				"A notificação de acerto não estará visível e irá estabilizar o FPS (recomendado para 3 GB de RAM)", 
-				"Removerá detalhes consideráveis do jogo, mas ainda poderá acompanhar a história principal (recomendado para 2 GB de RAM)", 
-				"Você não estará escolhendo nenhum preset. Clique novamente para voltar ao menu.",
-				''];
-			case "en-US":
-				judgementText = ["High End (4GB+)", "Mid End(3GB+)", "Low End(2GB+)", "Back", ''];
-				explicacoes = [
-					"Everything of the mod will be activated (recommended for 4 GB RAM or more)",
-					"Ratings popup will be invisible and FPS will become stable (recommended for 3 GB RAM)",
-					"Remove some game details, but dont will change yor experience with the mod (recomendado para 2 GB de RAM)",
-					"Go back to the options",
-					''
-				];
-			case "es-ES":
-				judgementText = ["Gama Alta (4GB+)", "Gama Media(3GB+)", "Gama Baja(2GB+)", "Voltar", ''];
-				explicacoes = [
-					"Se activará todo el mod (recomendado para 4 GB de RAM o más)",
-					"Los popup de rating se convertirá invisible y los FPS se estabilizarán (recomendado para 3 GB de RAM)",
-					"Elimina algunos detalles del juego, pero no cambiará tu experiencia con el mod (recomendado para 2 GB de RAM)",
-					"Volver para las opciones",
-					''
-				];
-		}
 
 		keyTextDisplay = new FlxText(-10, 0, 1280, "", 72);
 		keyTextDisplay.scrollFactor.set(0, 0);
@@ -148,23 +124,10 @@ class PresetsSubstate extends MusicBeatSubstate
 
 	function updateJudgement()
 	{
-		switch(SaveData.language) {
-			case "pt-BR":
 		infoText.text = 'Escolha um Preset de otimização\n\n'
 			+ judgementText[curSelected]
 			+ ': '
 			+ explicacoes[curSelected];
-			case "en-US":
-		infoText.text = 'Choose a optimization preset\n\n'
-			+ judgementText[curSelected]
-			+ ': '
-			+ explicacoes[curSelected];
-			case "es-ES":
-		infoText.text = 'Seleccione un preset de optimización\n\n'
-			+ judgementText[curSelected]
-			+ ': '
-			+ explicacoes[curSelected];
-		}
 
 		textUpdate();
 	}
@@ -181,15 +144,8 @@ class PresetsSubstate extends MusicBeatSubstate
 
 		keyTextDisplay.screenCenter();
 
-		switch (SaveData.language)
-		{
-			case "pt-BR":
 		infoText = new FlxText(-10, 580, 1280, 'Escolha um Preset de otimização\nToque na opção duas vezes para confirmar\n\n'+ judgementText[curSelected] + ': ' + explicacoes[curSelected], 72);
-			case "en-US":
-		infoText = new FlxText(-10, 580, 1280, 'Choose a optimization preset\nTouch two times on the option to confirm\n\n'+ judgementText[curSelected] + ': ' + explicacoes[curSelected], 72);
-			case "es-ES":
-		infoText = new FlxText(-10, 580, 1280, 'Seleccione un preset de optimización\nToca la opción dos veces para confirmar\n\n'+ judgementText[curSelected] + ': ' + explicacoes[curSelected], 72);
-	}
+
 	}
 
 	function selecionarpreset()

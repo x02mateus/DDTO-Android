@@ -389,9 +389,6 @@ class PlayState extends MusicBeatState
 	var libFinaleOverlay:BGSprite;
 	var libVignette:BGSprite;
 	var grpPopups = new FlxTypedGroup<BGSprite>();
-	 
-	// natsuki bombada supremacy
-	public static final charList:Array<String> = ['Yuri', 'Sayori', 'Monika', 'Natsuki'];
 
 	var altAnim:String = "";
 	var fc:Bool = true;
@@ -608,11 +605,11 @@ class PlayState extends MusicBeatState
 			switch(curStyle)
 			{
 				case 'lib':
-					Paths.image('libbie_Splash', true);
+					Paths.image('libbie_Splash', false, true);
 				case 'pixel':
-					Paths.image('pixel_Splash', true);
+					Paths.image('pixel_Splash', false, true);
 				default:
-					Paths.image('NOTE_splashes_doki', true);
+					Paths.image('NOTE_splashes_doki', false, true);
 			}
 		}
 
@@ -686,12 +683,12 @@ class PlayState extends MusicBeatState
 	
 				try
 				{
-					introDoof = new DialogueBox(Assets.getText(Paths.localeDialogue('${SONG.song.toLowerCase()}/$introDialogue')));
+					introDoof = new DialogueBox(Assets.getText(Paths.json('dialogue/${SONG.song.toLowerCase()}/$introDialogue')));
 					introDoof.scrollFactor.set();
 				}
 				catch (e)
 				{
-					trace('[${SONG.song}] "$introDialogue" nao existe ou contem um erro!');
+					trace('[${SONG.song}] "$introDialogue" either doesn\'t exist or contains an error!');
 				}
 			}
 	
@@ -701,13 +698,13 @@ class PlayState extends MusicBeatState
 	
 				try
 				{
-					endDoof = new DialogueBox(Assets.getText(Paths.localeDialogue('${SONG.song.toLowerCase()}/$endDialogue')));
+					endDoof = new DialogueBox(Assets.getText(Paths.json('dialogue/${SONG.song.toLowerCase()}/$endDialogue')));
 					endDoof.scrollFactor.set();
 				}
 				catch (e)
 				{
 					endDoof = null;
-					trace('[${SONG.song}] "$endDialogue" nao existe ou tem algum erro!');
+					trace('[${SONG.song}] "$endDialogue" either doesn\'t exist or contains an error!');
 				}
 			}
 		}
@@ -1785,7 +1782,7 @@ class PlayState extends MusicBeatState
 
 					//Preload cards justincase
 					//Um preload mil vezes melhor diga-se de passagem...
-					for (chr in charList)
+					for (chr in DokiCards.charList)
 						Paths.image('extraui/' + chr + 'Card', 'preload');
 
 				}
@@ -2224,7 +2221,7 @@ class PlayState extends MusicBeatState
 		}
 			if(!SaveData.lowEnd){
 				for (sticker in stickerData)
-					Paths.image('stickies/' + sticker, 'preload', false);
+					Paths.image('stickies/' + sticker, 'preload', false, false);
 			}
 		}
 
@@ -2302,7 +2299,7 @@ class PlayState extends MusicBeatState
 		camGame2.zoom = defaultCamZoom;
 		camGame2.focusOn(camFollow.getPosition());
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.89).loadGraphic(Paths.image('healthBar', true));
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.89).loadGraphic(Paths.image('healthBar', false , true));
 
 		switch (SONG.song.toLowerCase())
 		{
@@ -2351,7 +2348,7 @@ class PlayState extends MusicBeatState
 		// lyics
 		try
 		{
-			var lyricFile = CoolUtil.coolTextFile(Paths.txt('data/songs/${SONG.song.toLowerCase()}/lyrics${SaveData.language}'));
+			var lyricFile = CoolUtil.coolTextFile(Paths.txt('data/songs/${SONG.song.toLowerCase()}/lyrics'));
 
 			for (lyric in lyricFile)
 			{
@@ -2474,9 +2471,9 @@ class PlayState extends MusicBeatState
 		// layering due to icons
 		add(scoreTxt);
 
-		Paths.image("pause/"+ ((hasMetadata && metadata.song.pause != null) ? metadata.song.pause : "fumo"), 'preload', true);
-		Paths.image("Credits_LeftSide", 'preload', true);
-		Paths.image("DDLCStart_Screen_Assets", 'preload', true);
+		Paths.image("pause/"+ ((hasMetadata && metadata.song.pause != null) ? metadata.song.pause : "fumo"), 'preload', false, true);
+		Paths.image("Credits_LeftSide", 'preload', false, true);
+		Paths.image("DDLCStart_Screen_Assets", 'preload', false, true);
 		Paths.music('disco');
 
 		//Movendo pra cá pra dar tempo do jogo setar as variáveis que ele vai usar
@@ -2600,8 +2597,7 @@ class PlayState extends MusicBeatState
 		super.create();
 
 		cacheCountdown();
-		if(SaveData.ratingVisivel && !SaveData.botplay) // Isso vai fazer (ou pelo menos deveria) com que caso tu tenha o botplay ativado os popups não vão aparecer
-			//Só fiz isso pq não faz sentido tu não jogar e aparecer os ratings... Isso também economiza memória
+		if(SaveData.ratingVisivel)
 			cachePopUpScore();
 
 		CustomFadeTransition.nextCamera = camOverlay;
@@ -2622,14 +2618,14 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '-pixel';
 		}
 
-		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2, true);
-		Paths.image(pixelShitPart1 + "good" + pixelShitPart2, true);
-		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2, true);
-		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2, true);
-		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2, true);
+		Paths.image(pixelShitPart1 + "sick" + pixelShitPart2, false, true);
+		Paths.image(pixelShitPart1 + "good" + pixelShitPart2, false, true);
+		Paths.image(pixelShitPart1 + "bad" + pixelShitPart2, false, true);
+		Paths.image(pixelShitPart1 + "shit" + pixelShitPart2, false, true);
+		Paths.image(pixelShitPart1 + "combo" + pixelShitPart2, false, true);
 		
 		for (i in 0...10) {
-			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2, true);
+			Paths.image(pixelShitPart1 + 'num' + i + pixelShitPart2, false, true);
 		}
 	}
 
@@ -2654,7 +2650,7 @@ class PlayState extends MusicBeatState
 		}
 
 		for (asset in introAlts)
-			Paths.image(asset, true);
+			Paths.image(asset, false, true);
 
 		if (curStage.startsWith('schoolEvil') || curStage.startsWith('schoolEvilEX')){
 			CoolUtil.precacheSound('intro3' + glitchSuffix);
@@ -2860,7 +2856,7 @@ class PlayState extends MusicBeatState
 				extrachar1.visible = false;
 				camFocus = false;
 				camHUD.alpha = 0.001;
-				for(char in charList)
+				for(char in DokiCards.charList)
 					Paths.image('credits/window_bottom_' + char.toLowerCase(), 'doki');
 
 				Paths.image('credits/window_bottom', 'doki');
@@ -3732,21 +3728,6 @@ class PlayState extends MusicBeatState
 		FlxG.sound.playMusic(Paths.inst(SONG.song), 1, false);
 		FlxG.sound.music.onComplete = songOutro;
 
-		
-		if(curSong.toLowerCase() == 'our harmony') {
-			// to do: arrumar dublagem em espanhol
-			switch(SaveData.language) {
-				case "en-US":
-						changeVocalTrack('', '_EngDub');
-				case "es-ES":
-						changeVocalTrack('', '_EspDub');
-				case "pt-BR":
-						vocals = new FlxSound().loadEmbedded(Paths.voices(SONG.song)); // Isso faz que só seja o vocal normal, já que o vocal base já é dublado em PTBR
-						FlxG.sound.list.add(vocals);
-						resyncVocals();
-			}
-		}
-
 		vocals.play();
 		vocals.onComplete = function()
 		{
@@ -3755,7 +3736,6 @@ class PlayState extends MusicBeatState
 
 		if (curSong.toLowerCase() == 'epiphany' && storyDifficulty == 2)
 			changeVocalTrack('', '_Lyrics');
-
 
 		if (paused)
 		{
@@ -5511,8 +5491,8 @@ class PlayState extends MusicBeatState
 			grpNoteSplashes.add(daNoteSplash);
 		}
 
-		if (SaveData.judgeHitSound)
-			HitSoundManager.play(daRating); //q
+		if (SaveData.hitSound)
+			HitSoundManager.play(daRating);
 
 		if (!practiceMode)
 			songScore += Math.round(score);
@@ -5543,12 +5523,12 @@ class PlayState extends MusicBeatState
 			pixelShitPart2 = '';
 		}
 
-		if(SaveData.ratingVisivel && !SaveData.botplay)
+		if(SaveData.ratingVisivel)
 			rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
 		else
 			rating= new FlxSprite().makeGraphic(1, 1, FlxColor.TRANSPARENT);
 
-		rating.visible = SaveData.ratingVisivel && !SaveData.botplay;
+		rating.visible = SaveData.ratingVisivel;
 
 		if (SaveData.changedHit)
 		{
@@ -5658,12 +5638,12 @@ class PlayState extends MusicBeatState
 		for (i in seperatedScore)
 		{
 			var numScore:FlxSprite;
-			if(SaveData.ratingVisivel && !SaveData.botplay)
+			if(SaveData.ratingVisivel)
 				numScore= new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
 			else
 				numScore= new FlxSprite().makeGraphic(1, 1, FlxColor.TRANSPARENT);
 
-			numScore.visible = SaveData.ratingVisivel  && !SaveData.botplay;
+			numScore.visible = SaveData.ratingVisivel;
 			numScore.screenCenter();
 			numScore.x = rating.x + (45 * daLoop) - 50;
 			numScore.y = rating.y + 100;
@@ -6835,7 +6815,8 @@ class PlayState extends MusicBeatState
 						case 2568:
 							FlxTween.tween(whiteflash, {alpha: 1}, 0.57, {ease: FlxEase.sineIn});
 						case 2578:
-							destruirsprites(cg1, "musicroom/CG/cg1", "doki");
+							cg1.visible = false;
+							cg1.alpha = 0;
 							cg2.visible = true;
 							cg2.alpha = 1;
 							FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineIn});
@@ -6845,18 +6826,18 @@ class PlayState extends MusicBeatState
 						case 2674:
 							FlxTween.tween(whiteflash, {alpha: 1}, 1, {ease: FlxEase.sineIn});
 						case 2694:
-							destruirsprites(cg2, "musicroom/CG/cg2", "doki");
+							cg2.visible = false;
+							cg2.alpha = 0;
 							cg2Group.visible = true;
 							cg2Group.alpha = 1;
 
 							for (item in cg2Group.members)
 								FlxTween.tween(item, {x: -250}, 17 + (1 * item.ID), {ease: FlxEase.sineIn});
+
 							FlxTween.tween(whiteflash, {alpha: 0}, 1, {ease: FlxEase.sineIn});
 						// Fade out
 						case 2702:
 							// End here
-						case 2712:
-							destruirsprites(lyrics);
 					}
 				case 'neet':
 					switch (curStep)
@@ -7359,7 +7340,7 @@ class PlayState extends MusicBeatState
 									FlxTween.tween(funnytext, {alpha: 0}, 0.5, {ease: FlxEase.sineIn, startDelay: 2,
 										onComplete:function(twn:FlxTween)
 										{
-											funnytext.text = 'E os bots... Gostam de...\nNATSUSKI BOMBADA\n(Ou talvez só o porter que é troll kek-)'; // tinha me esquecido disso k
+											funnytext.text = 'E os bots... Gostam de...\nNATSUSKI BOMBADA\n(Ou talvez só o porter que é troll kek-)';
 											FlxTween.tween(funnytext, {alpha: 1}, 1, {ease: FlxEase.sineIn,
 												onComplete:function(twn:FlxTween)
 												{
@@ -7377,7 +7358,6 @@ class PlayState extends MusicBeatState
 							});
 							}//Esse código tá feião, mas não importa a aparência, O QUE IMPORTA SÃO OS MÚSCULOS
 							//Faça jojo pose imediatamente
-							//JOJO REFERENCEEEEEEEEE
 							//Espero ter feito isso certo de primeira... Tenho certeza que se eu precisar voltar aqui... Meu Amigo... Melhor nem pensar...
 							FlxTween.tween(camFollow, {y: 326}, 3, {
 								ease: FlxEase.linear,
@@ -7569,7 +7549,7 @@ class PlayState extends MusicBeatState
 
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							extractPopup.alpha = 0.001;
-							destruirsprites(extractPopup, 'libitina/extracting', 'doki'); // BUG AQUI, se eu nao to moscando
+							destruirsprites(extractPopup, 'libitina/extracting', 'doki');
 							if (!SaveData.lowEnd)
 							{
 							deskBG2Overlay.alpha = 0.15;
@@ -7610,7 +7590,7 @@ class PlayState extends MusicBeatState
 							}
 						case 384:
 							libHando.alpha = 0.001;
-							destruirsprites(libHando, 'libitina/Hando', 'doki'); // aparentemente o jogo crasha aqui em outras linguagens por algum motivo
+							destruirsprites(libHando, 'libitina/Hando', 'doki');
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							libiWindow.scale.set(1, 1);
 							boyfriend.setPosition(170, -50);
@@ -8659,7 +8639,7 @@ class PlayState extends MusicBeatState
 				else //FIX FOUND
 					trace('This Sticker doesnt exists ' + stickerData.length + ' which number' + rand);
 
-				item.loadGraphic(Paths.image('stickies/' + stike, 'preload', false));
+				item.loadGraphic(Paths.image('stickies/' + stike, 'preload', false, false));
 				microArrayofStickies.push('stickies/' + stike);
 				stickerData.remove(stike);
 				item.scale.set(1, 1);
@@ -8685,13 +8665,7 @@ class PlayState extends MusicBeatState
 		if (!SaveData.lowEnd)
 		{
 			trace("It's happenin!");
-			var nicoText:Array<String>;
-
-			if(SaveData.language == "pt-BR") {
-				nicoText = CoolUtil.coolTextFile("assets/data/nicoText.txt");
-			} else {
-				nicoText = CoolUtil.coolTextFile("assets/locales/" + SaveData.language + '/data/nicoText.txt');
-			}
+			var nicoText:Array<String> = CoolUtil.coolTextFile(Paths.txt("data/nicoText"));
 	
 			if (Date.now().getDay() != 5)
 				nicoText.push("it's not even friday...");
@@ -9267,104 +9241,4 @@ l.,dkxkxl.       .l0XXXXXXXXKKXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXd
      ..,;;:odddddddolcccc;lOXNk.   .''. ;oxO0l.....;c:;;;,.     .,;;;.        .oxkkkkkkx:. .okkkkkkk
 .,::ldddxxxxxdxxxdxdlc;;xkxoodxl.      cXNxcdxocccccc;.     ........          'ldkkkkkx:. .cxkkkkkkk
 ddxxxxxxxxddxxxxxdxdol;dNWW0l:llc'   .lXNklclldkOkkdlc.    'lddddddl;',,,,'.    'okkkko.  ;dkkkkkkkk
-
-
-⠀                                                                                                                                            
-                                                  --..----..    ------..                                                                    
-                                            ....----    mm@@::    ......MM  ----                                                            
-                                        ..@@@@            ..MM    --    --::    --                                                          
-                                        mm..                    ----....::::..                                                              
-                                      ----                        ::..    ++  --  ..++                                                      
-                                      ++      --    ..      --      --..  ..##  --..  @@                                                    
-                                    ..----..--..  --  ..    mm--..  ..::    ##mm::--..::--                                                  
-                                    mm..----++  ++  ++--  ++--mm++..  ++    ++::++      ##                                                  
-                                    ::..  ++--++::++..  ::::::++++..  --..  ..MM--::  --......                                              
-                                  ++::::--++::--..MM  ::::--..--++--::----  ..++::..  ++..    ++                                            
-                                --::::--------@@++::::--....  --++::::--..    ----    mm..      --                                          
-                              mm  mm::....    ##MM++MM..      ..  ----..::          ++++        ::                                          
-                            @@    ::::..    ----@@          --  ..--....------------::::        ::                                          
-                                        ------                    --....--  ::mm++    ..                                                    
-                                    ++::                --####++  ::..--::    ..++      ++                                                  
-                                  mm  ..MM##@@            ::MMmm::++::::--    ..++      MM                                                  
-                                --  ..  ..mm@@            --      --::....      ::        ::                                                
-                                    ..  ..                        --            ::                                                          
-                              ..      ++..                            ..      ..++                                                          
-                            MM        ....                        ..  --  ..  ..mmMM::                                                      
-                                      ..  ..                    --    ++  ++  ..mm++MMMMMM::                                                
-                                      --                            ++++  ::  --mmmmMMMMMMMMMMMM++..                                        
-                                      ..  ..--                ..  ..mm::..--..++MM::----------::::++mmmm++++--                              
-                                  --++++    ++++            --....++@@--mm  ++mm++----------------------::::++++++::                        
-                              --mmmmmmmm::  MM++mm++    ++..  ..++@@::  ......mm::--------------------------mmmm::--MM                      
-                            mmmm++::::::++@@MMMMmmMMMM::      ..--          ++MMmm----------------------++mm--------++MMmm                  
-                        ++mm++++::::::::++mm@@@@MM##  --      ::mm        ..MM::++--------------------mm--------------mmmmMM..              
-                      mm++::::::::::::::++mmMMmmMM--  ++  ::              @@MM..::------------------mm..--------------mmmmmmMM++            
-                    MM::::::::::::::::::::++--MMMM++::++                mmmmMM++::----------------mm------------------::mm++MMmm--          
-                    ++--::::::::::::++::::::++mm::MM::MMmm            ::++mm++mm--------::------mm----------------------mm::::mm++          
-                  MM----::--::::::::++::::::++mm++mm::++--..        --++++mm--mm::::::::++::------------------------::::::++--::++::        
-                ::MM::::::::::::++::++--::::::@@::::--mmMM..    ..--++::::::--::::::::::++::::++----------------------::--++::::++mm        
-                MMMMmm++----::::::++@@  ::::--++  ..##@@----      ++::------mm::::::::::::::::------------------------++::::::::++++        
-              --MMMMMM::----++mm++++::mm::----....@@####  @@    mm::--------MM--::::::::++++++------------------------++::::::::++++        
-              @@MMMMMM++--::::::::::--::mmmm--mm  ##@@--++MMMM++++------::..MM--::::::++++++::------------------------++::::::::::++++      
-              MMMMMMMMmm++mm::::::----::mm--MM..  ##@@++##mm::::......--++  ++--::++++++++::::------------------------++++::::::::++MM      
-              MMMMMMMM++mm++++::----::::::::##--##::##MM##MMmm++mmmmmmMM..--::----::++++++::::------------------------++++::::::::++MMMM    
-              MMMMMMMM::MM++::------++++::::@@##++  ####++mm----  mm--------------::++++++::::--------------------------++++::::::++MMMM..  
-            ..MMMMMM::::MM++::------::++::::MM@@@@++######++------mm::--------------::++++++::--------------------------::::::::::++mmMM@@  
-            MMMMMM::::::++::----------++::::@@##mm++##@@------++MMmm----------------::::++++::::--------------------------::::::::++++MMMM++
-            mmmm::::::++++::----------::::--##mmmm++@@MM----::MM++------------------::::++mm::::----------------------------::::::::++MMMMMM
-          ++mm++::::::MM++::------------::--++##::##MM++--::MM++----------------------::++++::------------------------------::::::::++mmmmmm
-          MMmm++::::::MM++::----------::::--##mm++##::::::mmmm------------------------::++::++----------::::::----------------::::::++++mmmm
-          mm++::::::::MM++::::--------::----MMmm@@mm::--::mm--------------------------::::++--------------::++::--------------::::::++++mmmm
-        MM++++::::::::MM++::::::----::::..--mmmmMM::++::@@::----------------------------::MM::------------::::++::----------::::::::::++mmmm
-        ++++::::::::::MM++++::::::::::::----##MM@@mm++++::------------------------------::--::------------::::++++++--::::::::::::::::++mmmm
-      mm++::::::::++::MM++++++++::::::::--::##@@@@MM::mm----------------------------::--mm::::--------------::::++++mm--::::::::::::::::mmmm
-      mm++::::::::::::MMmm++++++++::::::::++##@@MMMM--++::::----------------------::::--++::::------------------::++++mm::::::::::::::::mmMM
-      mmmm::::::::++::mmMMmmmm++++++++++mm@@##@@@@MMmm++++::::::::::----::::::::::::::::--::----------------------++++++::::::::++::::::mm--
-    ++mmmm++::::::::++::MM++mmmmmmmm++++mm######@@--mm++++++++::::::::::::::::::::::::++::::--------------------::::++++++::::::..::::++mm  
-    MMmmmm++++::++++::::MM@@mmMMMMMMmmmmmm@@##@@##MMmmmmmm++++++++::::::::::::::::::::mm::::----------------------::++++++::::mm..::::++mm  
-    mmmmmm++++++::++++::++@@##@@mmMMMMMMmmMM####MMMMMMmmmm++++++++++::::::::::::::::::++::::--------------------::::++++::::::MM--::++mmMM  
-    ++mmmm++++++::++::::++MM######MMMMMM@@@@####MMMMmmmmmm++++++++++++++++++++::::::::mm--::::------------------::::++++++::mm++::::++mm..  
-    ::mmmm++++++::++++::::MM######    ##@@MMMM####MMmmmmmmmm++++++++++++++++++++::++++##mm++::::----------------::::++++++++mm::::::++mm..  
-    ..mmmm++++++++++::::::mm@@##MM    --########@@MMmmmmmmmm++++++++++++++++++++::MM######::::::::------------::::::++++++mmmm::::::mmmm..  
-    ..mm++++++++++++++++++++MM##        ##MM##########MM++++++++++++++++++++mmMM@@@@@@####@@::::::::----------::::++++mmmmmm::::::::mmmm++  
-    --mm++++++++mmmm++::::::MM##        ..############@@@@@@MMMMmmMMMMMMMMMMMMMMMM@@@@@@####::++::::::------::::::++mmmmMM++::::::++mmmmMM  
-    --++++mm++++mmmmmm++::::MM@@          ########@@MMMMMMMMMMmmmmmmmmmmmmmmmmMMMM@@MMMM######::mm::::::::::::::::mmmmmmMM++::::::++mmmmMM  
-    ++++mmmmmm::++mmmmMM::::MM++          ##@@@@##MMmmmmmmmm@@mmmmmmmmmmmmmmmmmmmm@@MMMM######mmmmmm++++::::++MM##MMMM@@mm++::::::::mmmm--  
-    ++MMMMmm++::::::MMMM++++MM            --MM@@##MMmmmmmm++##mmmmmmmmMMMMMMMMMMMM##MMMM########::mmmmmmmmMM####MMMM@@MM++::::::::::++MM    
-    MMMMMMmm::::::::mmMMmmmm++              @@++##MM++++mm::##MMmmmmMMMMMMMMMMMMMM##MM@@##########::mmMM@@####@@MM##MMmm::::::::::::::mm..  
-    @@MMMMmm::::::::::MMMMMM                ..@@##@@++++++MM##@@mmmmmmMMMM@@@@@@@@##@@@@############@@mm@@##MMMM##@@MM++++::::::::::::mm--  
-    --@@mm::::::::::::MMMM..                  ####@@++::++++mm++mmmmmmMMMM@@@@@@@@##@@####################mmMM##@@MMMMMMmmmm++::::::::mm--  
-      MM++++::::::::++::++                    @@++##++::::::::mm::::++mmmmMMMM@@@@##@@####################@@@@########@@@@mm::::::::::mm..  
-      MM::++::::::::::::                      @@::##MM----::::MM::::::++++mmMM@@@@####################::..::::::::++++++::::::::::::++mm    
-    MM++::++++::::::::::++                    ::MM@@@@mm::::::MM::::::::::++mmMM@@##################..::::::--::::::::::++++::::::::mmmm    
-    mm::++++++::::::::++::                      ##@@##MMmmmmMMMMmm::::::::::::++@@@@##############::::::--++::::::::::++++++::::::++++MM    
-  MM++::++++++::::::++++::..                    ######mm::::--MMmm::::::::::::::::@@############@@++::--::::::::::::++++++++::::::++mm..    
-  MM::::++++mm::::::++++::..                    ##mm##mm------  MM::::::::::::::::::##@@########mm++::::::::::::::++++++mm++::++++MMMM      
-  mm::::++++mm::::++++++++                      @@++##::::::--..MM::::::::::::::::::mm@@@@######MMmm::::::::::::::++++MMMM++++++MMMM        
-  MM::mm++mmmm::::++mmmmmm                      --++##++::::::::mm::::::::::::::::@@++mm##@@####MM++----::::::::::mmmmMMMMMM++MMMM--        
-  ::::mmmmmmmm::::mmmmmmMM                        ####MM::::::::++++++::::::::::::::::@@MM@@####MM--::::::::::::::mmMMMMMMmmmmmmmm          
-    ++mmmmmmmm::::mmMMMM                          ####MMMM::::::++++++++::::::::::MM++--MM######++::::::::::::::::mmMMMMMMMMMM::            
-    mmmmmmmmmm::::::mmMM                        ..@@@@MM@@@@mm++++++++++++++++++++++::::##@@@@##--::::::::::::::::mmMMMMMMMM::              
-    mmmmmmmmmm::::::::                          mmMMMMMM@@@@@@mmmmmm++++++++++++++++++++MMMM@@mm::::----::::::::::MMMMMMMM..                
-    MMmmmmmmmm::::++::                          @@MM::mm++@@@@@@mmmmmm++++++++++++++++mmmm####MMMM++mm::--::::::::mmMMMM--                  
-    mmmmmmmmmm::mm  mm                          MMMMmm######mmmmMMmmmmmmmmmm++++++++mmmmMM####  --..      mm--::::MMMM##                    
-  ++mmmmmmmmMM  --MM                          ..@@mm##@@##MM##@@--MMmmmmmmmmmmmm++mmmmMM@@@@##--  ..++mm@@..++--::MM@@##..                  
-  MMMMMMmm..mm--..--                          MMMM####MM##MM@@####--mmmmmmmmmmmmmmmmmmMM@@@@##..        ++MM++--::MM######                  
-  ::++..++--::                                MM####@@MM##MMMM######++::mmmmmmmmMMMMMMMMMMMM##            ..MM++MMmm######..                
-      ++..--..                                ##@@##@@MM##MMMM@@MMMM##@@++MMMMMMMMMMMMMMMM@@##                ##--MM########                
-      ::......                              ..MM@@####MM##MMMM@@MMMM######++MMMMMMMMMM@@@@####                ##############                
-                    ..                      ##MM@@####MMMMMMMM@@MMMM####mm##++MMMM@@@@##@@####              ################..              
-        ++                      ..          ##@@@@####MMMMMMMM@@MMMM####mmMMMMmmmm@@@@mmMM####..          --################::              
-                                  --      ..##@@@@####@@MM##@@@@MMMM####MMMMMM####::++@@MM####--          @@##################              
-          ::                      --      ++##@@@@####@@MM##@@@@MMMM####@@MMMM##########MMMM##..            ##################              
-                              ..  --      ####@@@@######MM@@@@MMMMMM######MMMM############MM@@..              ################              
-            --                @@  ::      ####@@@@######@@MM##MMMMMM######MMMM############MM::                ################--            
-              --                ::::    ::####@@@@@@####@@MM##MMMMMM######MMMM##############::                @@########@@####--            
-                --            ....--    ########MM@@######@@@@MMMMMM######MMMM##############::                MM########@@####@@            
-                          --::++MM::    ########MM########@@@@@@@@MM######MMMM##############++                mm########MM######            
-                  ::      --::++::    ++########MM############@@@@@@######MMMM##############++                mm..######@@######            
-                        ::mm::        ##########MM############@@@@@@@@####@@@@##############@@                    MM####@@######--          
-                      ..              ##########@@############@@@@@@@@####@@@@@@####@@########..                  ################          
-                                    ::##########@@############@@@@@@@@####@@@@@@####@@##@@######              @@##########@@######          
-                                    ############@@############@@@@@@@@@@####@@@@####@@##@@######  ..--  @@################@@######@@        
-                                    ############@@@@##########@@@@@@@@@@####@@@@####@@##MM################################MM########..      
-                                  ..##############@@########@@@@@@@@@@@@####@@@@@@@@@@##MM########@@##################################      */
+*/

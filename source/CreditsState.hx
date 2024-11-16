@@ -62,17 +62,13 @@ class CreditsState extends MusicBeatState
 	public var bufferArray:Array<Peeps> = [];
 	var creditsStuff:Array<Array<Dynamic>> = [];
 
-	var path:String;
+	var path:String = Paths.getPreloadPath('images/credits/credits.json');
 
 	override function create()
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
-		if(SaveData.language == "pt-BR") {
-			path = Paths.getPreloadPath('images/credits/credits.json');
-		} else {
-			path = 'assets/locales/' + SaveData.language + '/images/credits/credits.json'; // eu vou me jogar de um prédio
-		}
+
 		persistentUpdate = persistentDraw = true;
 
 		if (pageFlipped)
@@ -140,8 +136,7 @@ class CreditsState extends MusicBeatState
 		{
 			//icons
 			var icon:FlxSprite;
-			trace(creditsStuff[i][1]);
-			if (Paths.imagechecker('credits/icons/' + creditsStuff[i][1], "preload")) //apenas o icon Invisibru aparece aqui
+			if (Paths.imagechecker('credits/icons/' + creditsStuff[i][1], "preload"))
 				icon = new FlxSprite(777, 216).loadGraphic(Paths.image('credits/icons/' + creditsStuff[i][1]));
 			else
 				icon = new FlxSprite(777, 216).loadGraphic(Paths.image('credits/icons/invisibru', 'preload')); //por enquanto, el invisibru

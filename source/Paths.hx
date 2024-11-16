@@ -44,13 +44,7 @@ class Paths
 
 	public static function limparspriteporchave(chave:String, library:String){ //Isso é uma tentativa desesperada de arrumar libitina
 		
-		var key:String;
-		if(SaveData.language == "pt-BR" && fileExists("assets/locales/" + SaveData.language + '/images/$chave.png', IMAGE, "locales")) {
-			key = getPath(SaveData.language + '/images/$chave.png', IMAGE, "locales");
-		} else {
-			key	= getPath('images/$chave.png', IMAGE, library);
-		}
-
+		var key:String = getPath('images/$chave.png', IMAGE, library);
 		@:privateAccess{
 		if (currentTrackedAssets["textures"].exists(key) && !noDisposeTextures.contains(key))
 			{
@@ -191,11 +185,7 @@ class Paths
 	//E com isso, os créditos voltam a funcionar da forma como deveriam tambem kek
 	inline static public function imagechecker(key:String, ?library:String):Bool
 	{
-		if(SaveData.language != "pt-BR") {
-			return OpenFlAssets.exists(getPath("locales/" + SaveData.language + '/images/$key.png', IMAGE));
-		} else {
- 			return OpenFlAssets.exists(getPath('images/$key.png', IMAGE, library));
-		}
+		return OpenFlAssets.exists(getPath('images/$key.png', IMAGE, library));
 	}
 
 	inline public static function getPreloadPath(file:String = '')
@@ -210,11 +200,7 @@ class Paths
 
 	inline static public function txt(key:String, ?library:String)
 	{
-		return getPath('$key.txt', TEXT);
-		
-		//} else {
-		//return getPath('locales/' + SaveData.language + '/data/$key.txt', TEXT);
-		//}
+		return getPath('$key.txt', TEXT, library);
 	}
 
 	inline static public function xml(key:String, ?library:String)
@@ -230,10 +216,6 @@ class Paths
 	inline static public function video(key:String, ?library:String)
 	{
 		return getPath('videos/$key.mp4', BINARY, library);
-	}
-
-	inline static public function localeDialogue(key:String) {
-		return getPath('locales/' + SaveData.language + '/dialogue/$key.json', TEXT); //aaaaaaaaaaa
 	}
 
 	static public function sound(key:String, ?library:String)
@@ -278,9 +260,9 @@ class Paths
 		return path.toLowerCase().replace(' ', '-');
 	}
 
-	inline static public function image(key:String, ?library:String, usaGPU:Bool = false):FlxGraphic
+	inline static public function image(key:String, ?library:String, ?locale:Bool, usaGPU:Bool = false):FlxGraphic
 	{
-		var returnAsset:FlxGraphic = returnGraphic(key, library, usaGPU);
+		var returnAsset:FlxGraphic = returnGraphic(key, library, locale, usaGPU);
 		return returnAsset;
 	}
 
@@ -297,31 +279,21 @@ class Paths
 		return false;
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String, usaGPU:Bool = false)
+	inline static public function getSparrowAtlas(key:String, ?library:String, ?locale:Bool, usaGPU:Bool = false)
 	{
-		if (fileExists("locales/" + SaveData.language + '/images/$key.xml', IMAGE)) {
-		return FlxAtlasFrames.fromSparrow(image(key, library, usaGPU), file('locales/' + SaveData.language +'/images/$key.xml'));
-		} else {
-		return FlxAtlasFrames.fromSparrow(image(key, library, usaGPU), file('images/$key.xml', library));
-		}
+		return FlxAtlasFrames.fromSparrow(image(key, library, locale, usaGPU), file('images/$key.xml', library));
 	}
 
-	inline static public function getPackerAtlas(key:String, ?library:String, usaGPU:Bool = false)
+	inline static public function getPackerAtlas(key:String, ?library:String, ?locale:Bool = false, usaGPU:Bool = false)
 	{
-		var imageLoaded:FlxGraphic = returnGraphic(key, library, usaGPU);
+		var imageLoaded:FlxGraphic = returnGraphic(key, library, locale, usaGPU);
 
 		return FlxAtlasFrames.fromSpriteSheetPacker((imageLoaded != null ? imageLoaded : image(key, library)), file('images/$key.txt', library));
 	}
 
-	public static function returnGraphic(key:String, ?library:String, usarGPU:Bool = false)
+	public static function returnGraphic(key:String, ?library:String, ?locale:Bool, usarGPU:Bool = false)
 	{
-		var path:String;
-		if(fileExists("locales/" + SaveData.language + '/images/$key.png', IMAGE)) {
-			path = getPath("locales/" +SaveData.language + '/images/$key.png', IMAGE);
-		} else {
-			path = getPath('images/$key.png', IMAGE, library);
-		}
-		
+		var path:String = getPath('images/$key.png', IMAGE, library);
 		if (OpenFlAssets.exists(path))
 		{
 			if (!currentTrackedAssets["graphics"].exists(path)) //Talvez essa segunda parte não seja usada mas né?

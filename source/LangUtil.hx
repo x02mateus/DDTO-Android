@@ -1,6 +1,7 @@
 package;
 
 import firetongue.Replace;
+import flixel.FlxG;
 
 using StringTools;
 
@@ -14,28 +15,47 @@ class LangUtil
 		switch (type.toLowerCase())
 		{
 			default: // aller
-				font = 'Aller';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'Aller';
+				}
 			case 'riffic':
-				font = 'Riffic Free Bold';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'Riffic Free Bold';
+				}
 			case 'halogen':
-				font = 'Halogen';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'Halogen';
+				}
 			case 'grotesk':
-				font = 'HK Grotesk Bold';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'HK Grotesk Bold';
+				}
 			case 'pixel':
-				font = 'LanaPixel';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'LanaPixel';
+				}
 			case 'dos':
-				font = 'Perfect DOS VGA 437 Win';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'Perfect DOS VGA 437 Win';
+				}
 			case 'vcr':
-				font = 'VCR OSD Mono';
-			case 'waifu':
-				if (SaveData.language == "en-US")
-					font = 'CyberpunkWaifus';
-				else
-					font = 'LanaPixel';
-
-			case 'lang':
-				// ok, essa fonte é bem pesada... mas é universal
-				font = 'Go Noto Current Regular';
+				switch (SaveData.language)
+				{
+					default:
+						font = 'VCR OSD Mono';
+				}
 		}
 
 		return font;
@@ -45,12 +65,14 @@ class LangUtil
 	{
 		var offset:Float = 0;
 
-		if (type.toLowerCase() == 'pixel' || type.toLowerCase() == 'waifu') {
-			// none because they all use LanaPixel
-			return 0;
-		} else {
-			return offset;
+		switch (type.toLowerCase())
+		{
+			default:
+			case 'pixel':
+				// none because they all use LanaPixel
 		}
+
+		return offset;
 	}
 
 	public static function getString(flag:String, context:String = 'data', ?replace:Dynamic):String

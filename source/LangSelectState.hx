@@ -1,27 +1,29 @@
+#if FEATURE_LANGUAGE
 package;
 
 import flixel.FlxG;
-import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.effects.FlxFlicker;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 
-class FirstBootState extends MusicBeatState
+// Aqui eu não sei o que mexer não, quem puder ajudar, a fazer a fix do possível bug
+// Me ajudem
+
+using StringTools;
+
+class LangSelectState extends MusicBeatState
 {
 	var textMenuItems:Array<String> = [];
 	var localeList:Array<String> = [];
 
-	var selectedsomething:Bool = false;
-
 	var curSelected:Int = 0;
 
 	var backdrop:FlxBackdrop;
-	var gradient:FlxSprite;
-	var funnynote:FlxSprite;
 
 	var grpOptionsTexts:FlxTypedGroup<FlxText>;
 
@@ -29,20 +31,10 @@ class FirstBootState extends MusicBeatState
 	{
 		persistentUpdate = persistentDraw = true;
 
-		backdrop = new FlxBackdrop(Paths.image('backdropsmenu/backdropcredits'));
-		backdrop.velocity.set(-16, 0);
-		backdrop.scale.set(0.2, 0.2);
+		backdrop = new FlxBackdrop(Paths.image('backdropsmenu/backdropcatfight'));
+		backdrop.velocity.set(-40, -40);
 		backdrop.antialiasing = SaveData.globalAntialiasing;
-		backdrop.alpha = 0.001;
 		add(backdrop);
-
-		gradient = new FlxSprite(0, 0).loadGraphic(Paths.image('gradient', 'preload'));
-		gradient.antialiasing = SaveData.globalAntialiasing;
-		gradient.color = 0xFF46114A;
-		gradient.alpha = 0.001;
-		add(gradient);
-
-		#if FEATURE_LANGUAGE
 
 		localeList = Main.tongue.locales;
 
@@ -52,9 +44,17 @@ class FirstBootState extends MusicBeatState
 		grpOptionsTexts = new FlxTypedGroup<FlxText>();
 		add(grpOptionsTexts);
 
+		var titleText:FlxText = new FlxText(0, 20, 0, LangUtil.getString('cmnLanguage'));
+		titleText.setFormat(LangUtil.getFont('riffic'), 48, FlxColor.WHITE, CENTER);
+		titleText.y += LangUtil.getFontOffset('riffic');
+		titleText.setBorderStyle(OUTLINE, 0xFFFF7CFF, 3);
+		titleText.screenCenter(X);
+		titleText.antialiasing = SaveData.globalAntialiasing;
+		add(titleText);
+
 		for (i in 0...textMenuItems.length)
 		{
-			var optionText:FlxText = new FlxText(0, 50 + (i * 50), 0, textMenuItems[i]);
+			var optionText:FlxText = new FlxText(0, titleText.height + 50 + (i * 50), 0, textMenuItems[i]);
 			optionText.setFormat(LangUtil.getFont('riffic'), 32, FlxColor.WHITE, CENTER);
 			optionText.y += LangUtil.getFontOffset('riffic');
 			optionText.screenCenter(X);
@@ -62,13 +62,6 @@ class FirstBootState extends MusicBeatState
 			optionText.ID = i;
 			grpOptionsTexts.add(optionText);
 		}
-		#else
-		FlxTween.tween(backdrop, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
-		FlxTween.tween(gradient, {alpha: 1}, 0.5, {ease: FlxEase.quadOut});
-
-		selectedSomethin = true;
-		bringinthenote();
-		#end
 
 		super.create();
 	}
@@ -79,29 +72,15 @@ class FirstBootState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if (controls.ACCEPT || BSLTouchUtils.justTouched() && selectedSomethin && !selectedsomething)
-		{
-			FlxG.sound.play(Paths.sound('exitOS', 'preload'));
-
-			FlxTween.tween(funnynote, {"scale.x": 0, "scale.y": 0, alpha: 0}, 0.5, {ease: FlxEase.quadOut});
-			FlxTween.tween(backdrop, {alpha: 0}, 1, {ease: FlxEase.quadOut});
-			FlxTween.tween(gradient, {alpha: 0}, 1, {
-				ease: FlxEase.quadOut,
-				onComplete: function(twn:FlxTween)
-				{
-					funnynote.kill();
-					SaveData.saveStarted = true;
-					SaveData.save();
-					FlxTransitionableState.skipNextTransIn = true;
-					FlxTransitionableState.skipNextTransOut = true;
-					MusicBeatState.switchState(new TitleState());
-				}
-			});
-		}
-
-		#if FEATURE_LANGUAGE
 		if (!selectedSomethin)
 		{
+			if (controls.BACK #if android || FlxG.android.justReleased.BACK #end)
+			{
+				selectedSomethin = true;
+				GlobalSoundManager.play('cancelMenu');
+				MusicBeatState.switchState(new OptionsState());
+			}
+
 			if (controls.UP_P)
 			{
 				GlobalSoundManager.play('scrollMenu');
@@ -130,14 +109,14 @@ class FirstBootState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				selectedsomething = true;
 				selectedSomethin = true;
 				GlobalSoundManager.play('confirmMenu');
+
 				grpOptionsTexts.forEach(function(txt:FlxText)
 				{
 					if (curSelected != txt.ID)
 					{
-						FlxTween.tween(txt, {alpha: 0}, 1, {
+						FlxTween.tween(txt, {alpha: 0}, 1.3, {
 							ease: FlxEase.quadOut,
 							onComplete: function(twn:FlxTween)
 							{
@@ -154,48 +133,20 @@ class FirstBootState extends MusicBeatState
 						{
 							FlxFlicker.flicker(txt, 1, 0.06, false, false, function(flick:FlxFlicker)
 							{
-								new FlxTimer().start(0.5, function(tmr:FlxTimer)
-								{
-									bringinthenote();
-								});
+								MusicBeatState.switchState(new OptionsState());
 							});
 						}
 						else
 						{
 							new FlxTimer().start(1, function(tmr:FlxTimer)
 							{
-								new FlxTimer().start(0.5, function(tmr:FlxTimer)
-								{
-									bringinthenote();
-								});
+								MusicBeatState.switchState(new OptionsState());
 							});
 						}
 					}
 				});
 			}
 		}
-		#end
-	}
-
-	function bringinthenote()
-	{
-		FlxG.sound.play(Paths.sound('openOS', 'preload'));
-
-		funnynote = new FlxSprite(0, 0).loadGraphic(Paths.image('WelcomeBack'));
-		funnynote.antialiasing = SaveData.globalAntialiasing;
-		funnynote.screenCenter();
-		funnynote.scale.set();
-		add(funnynote);
-
-		FlxTween.tween(funnynote, {alpha: 1}, 0.3, {ease: FlxEase.quadOut});
-		FlxTween.tween(funnynote, {"scale.x": 1}, 0.15, {ease: FlxEase.quadOut});
-
-		FlxTween.tween(funnynote, {"scale.y": 1}, 0.5, {
-			ease: FlxEase.quadOut,
-			onComplete: function(twn:FlxTween)
-			{
-				selectedsomething = false;
-			}
-		});
 	}
 }
+#end

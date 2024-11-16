@@ -22,6 +22,7 @@ class DokiCards extends MusicBeatSubstate
 	public var acceptInput:Bool = false;
 	var select:FlxSprite;
 	var funnyChar:String = 'protag';
+	public static var charList:Array<String> =  ['Yuri', 'Sayori', 'Monika', 'Natsuki'];
 	var selectGrp:FlxTypedGroup<FlxSprite>;
 	var curSelected:Int = 0;
 	var huehTimer:FlxTimer;
@@ -44,13 +45,13 @@ class DokiCards extends MusicBeatSubstate
 		selectGrp = new FlxTypedGroup<FlxSprite>();
 		add(selectGrp);
 
-		for (i in 0...PlayState.charList.length)
+		for (i in 0...charList.length)
 		{
 			var funnyx:Int = 69;
 
 			var funnySprite:FlxSprite = new FlxSprite(funnyx + (i * 294), 164);
-			funnySprite.frames = Paths.getSparrowAtlas('extraui/' + PlayState.charList[i] + 'Card', 'preload');
-			switch (PlayState.charList[i])
+			funnySprite.frames = Paths.getSparrowAtlas('extraui/' + charList[i] + 'Card', 'preload');
+			switch(charList[i])
 			{
 				case 'Natsuki':
 					funnySprite.animation.addByPrefix('pop', 'NatCardAnim', 24, false);

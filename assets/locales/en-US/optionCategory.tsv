@@ -1,7 +1,6 @@
 flag	content
 catGameplay	Gameplay
-catAppearance	Appearance
+catAppearance	Aparência
 catPerformance	Performance
-catUnlock	Unlockables
-catSave	Save
-catIdiomas  Languages
+catUnlock	Desbloqueáveis
+catSave	Progresso do jogo
