@@ -1,21 +1,29 @@
 {
-	"dependencies":
-	[
+	"dependencies": [
+		{
+			"name": "hxcpp",
+			"type": "haxelib",
+			"version": "4.2.1"
+		},
 		{
 			"name": "lime",
-			"type": "haxelib"
+			"type": "haxelib",
+			"version": "7.9.0"
 		},
 		{
 			"name": "openfl",
-			"type": "haxelib"
+			"type": "haxelib",
+			"version": "9.1.0"
 		},
 		{
 			"name": "flixel",
-			"type": "haxelib"
+			"type": "haxelib",
+			"version": "4.11.0"
 		},
 		{
 			"name": "flixel-addons",
-			"type": "haxelib"
+			"type": "haxelib",
+			"version": "2.11.0"
 		},
 		{
 			"name": "flixel-ui",
@@ -37,7 +45,7 @@
 			"name": "extension-webview",
 			"type": "git",
 			"ref": "master",
-			"url": "https://github.com/MateuzinhoX02/extension-webview.git"
+			"url": "https://github.com/TeamX02/extension-webview.git"
 		}
 	]
 }
