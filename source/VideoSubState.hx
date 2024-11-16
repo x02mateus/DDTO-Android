@@ -1,7 +1,5 @@
 package;
 
-// @todo: ver se dá pra trocar algo aqui (atualizar pro code mais novo do projeto-secreto, ou sla.)
-
 //	Isso foi feito para ser usado naqueles vídeos que não nescessariamente trocam de state (cutscene da gf corrompida, monika codin, etc...)
 
 #if mobile
