@@ -4,7 +4,7 @@
     "editor.formatOnPaste": true
   },
   "[xml]": {
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.formatOnPaste": true
   },
   "[tsv]": {
