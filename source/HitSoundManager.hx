@@ -1,7 +1,5 @@
 package;
 
-// @todo: fazer isso não carregar todos os hitsounds
-
 import flixel.FlxG;
 #if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
@@ -21,50 +19,51 @@ class HitSoundManager
 
 	public static function init():Void
 	{
-		CoolUtil.precacheSound('hitsound/snap');
-		CoolUtil.precacheSound('hitsound/perfect');
-		CoolUtil.precacheSound('hitsound/great');
-		CoolUtil.precacheSound('hitsound/good');
-		CoolUtil.precacheSound('hitsound/tap');
-
+		// não precisa do precache
+		// no paths.sound dos sons ali embaixo já carrega e funfa certinho pra gameplay.
 		snap = null;
 		perfect = null;
 		great = null;
 		good = null;
 		tap = null;
 
-		snap = new FlxSound().loadEmbedded(Paths.sound('hitsound/snap'));
-		snap.volume = SaveData.hitSoundVolume;
+		if(SaveData.hitSound) {
+			snap = new FlxSound().loadEmbedded(Paths.sound('hitsound/snap'));
+			snap.volume = SaveData.hitSoundVolume;
 
-		perfect = new FlxSound().loadEmbedded(Paths.sound('hitsound/perfect'));
-		perfect.volume = SaveData.hitSoundVolume;
-		perfect.onComplete = function():Void
-		{
-			noteHit = false;
-		};
+			FlxG.sound.list.add(snap);
+		}
 
-		great = new FlxSound().loadEmbedded(Paths.sound('hitsound/great'));
-		great.volume = SaveData.hitSoundVolume;
-		great.onComplete = function():Void
-		{
-			noteHit = false;
-		};
+		if(SaveData.judgeHitSound) {
+			perfect = new FlxSound().loadEmbedded(Paths.sound('hitsound/perfect'));
+			perfect.volume = SaveData.hitSoundVolume;
+			perfect.onComplete = function():Void
+			{
+				noteHit = false;
+			};
 
-		good = new FlxSound().loadEmbedded(Paths.sound('hitsound/good'));
-		good.volume = SaveData.hitSoundVolume;
-		good.onComplete = function():Void
-		{
-			noteHit = false;
-		};
+			great = new FlxSound().loadEmbedded(Paths.sound('hitsound/great'));
+			great.volume = SaveData.hitSoundVolume;
+			great.onComplete = function():Void
+			{
+				noteHit = false;
+			};
 
-		tap = new FlxSound().loadEmbedded(Paths.sound('hitsound/tap'));
-		tap.volume = SaveData.hitSoundVolume;
+			good = new FlxSound().loadEmbedded(Paths.sound('hitsound/good'));
+			good.volume = SaveData.hitSoundVolume;
+			good.onComplete = function():Void
+			{
+				noteHit = false;
+			};
 
-		FlxG.sound.list.add(snap);
-		FlxG.sound.list.add(perfect);
-		FlxG.sound.list.add(great);
-		FlxG.sound.list.add(good);
-		FlxG.sound.list.add(tap);
+			tap = new FlxSound().loadEmbedded(Paths.sound('hitsound/tap'));
+			tap.volume = SaveData.hitSoundVolume;
+
+			FlxG.sound.list.add(perfect);
+			FlxG.sound.list.add(great);
+			FlxG.sound.list.add(good);
+			FlxG.sound.list.add(tap);
+		}
 	}
 
 	public static function play(rating:String = 'ghost'):Void
