@@ -1,8 +1,5 @@
 package;
 
-// @todo: mesclar os codes de GPU e CPU com os mais novos dos projetos mais atualizados
-//		  (projeto-secreto, port do arrow funk que eu tava fazendo, miku, etc)
-
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -29,13 +26,11 @@ class Paths
 {
 	inline public static var SOUND_EXT = "ogg";
 
-	private static var currentTrackedAssets:Map<String, Map<String, Dynamic>> = ["textures" => [], "graphics" => [], "sounds" => []];
-	private static var localTrackedAssets:Map<String, Array<String>> = ["graphics" => [], "sounds" => []];
-	private static var noDisposeTextures:Array<String> = [];
-
-
-	public static final extensions:Map<String, String> = ["image" => "png", "audio" => "ogg", "video" => "mp4"];
-
+	public static var localTrackedAssets:Array<String> = [];
+	public static var currentTrackedTextures:Map<String, Texture> = [];
+	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
+	public static var currentTrackedSounds:Map<String, Sound> = [];
+	public static var currentTrackedSounds_cacheID:Map<String, String> = [];
 	public static final limites:Array<Int> = [500, 600, 700]; //Esperança para 1gb de RAM, mas tenho certeza que isso não será suficiente para Love n' Funkin, Libitina e outras pesadonas.
 
 	public static var dumpExclusions:Array<String> = [];
@@ -45,100 +40,112 @@ class Paths
 			dumpExclusions.push(key);
 	}
 
-	public static function limparspriteporchave(chave:String, library:String){ //Isso é uma tentativa desesperada de arrumar libitina
-		
-		var key:String = getPath('images/$chave.png', IMAGE, library);
-		@:privateAccess{
-		if (currentTrackedAssets["textures"].exists(key) && !noDisposeTextures.contains(key))
-			{
-				var texture:Null<Texture> = currentTrackedAssets["textures"].get(key);
-				texture.dispose();
-				#if (debug && !mobile)
-				trace('limpando $key das texturas');
-				#end
-				texture = null;
-				currentTrackedAssets["textures"].remove(key);
-			}
-
-			var graphic:Null<FlxGraphic> = currentTrackedAssets["graphics"].get(key);
-			OpenFlAssets.cache.removeBitmapData(key);
-			FlxG.bitmap._cache.remove(key);
-			graphic.destroy();
-			#if debug
-				trace('Removendo $key');
-			#end
-			currentTrackedAssets["graphics"].remove(key);
-			localTrackedAssets["graphics"].remove(key);
-		}
-	}
-
-	public static function clearUnusedMemory(runG:Bool = true):Void {
-		for (key in currentTrackedAssets["graphics"].keys()) {
-			@:privateAccess
-			if (!localTrackedAssets["graphics"].contains(key)) {
-				if (currentTrackedAssets["textures"].exists(key) && !noDisposeTextures.contains(key)) {
-					var texture:Null<Texture> = currentTrackedAssets["textures"].get(key);
-					texture.dispose();
-					#if (debug && !mobile)
-					trace('limpando $key das texturas');
-					#end
-					texture = null;
-					currentTrackedAssets["textures"].remove(key);
-				}
-
-				var graphic:Null<FlxGraphic> = currentTrackedAssets["graphics"].get(key);
-				OpenFlAssets.cache.removeBitmapData(key);
-				FlxG.bitmap._cache.remove(key);
-				graphic.destroy();
-				currentTrackedAssets["graphics"].remove(key);
-			}
-		}
-
-		for (key in currentTrackedAssets["sounds"].keys()) {
-			if (!localTrackedAssets["sounds"].contains(key)) {
-				OpenFlAssets.cache.removeSound(key);
-				currentTrackedAssets["sounds"].remove(key);
-			}
-		}
-		if(runG)
-			gColetor();
-	}
-
-	public static function gColetor()
+	public static function clear_memory_by_key(key:String, remove_local_mem:Bool = false)
+	{
+		if (currentTrackedAssets.exists(key) && !dumpExclusions.contains(key))
 		{
+			trace('removendo');
+			var obj = currentTrackedAssets.get(key);
+			@:privateAccess
+			if (obj != null)
+			{
+				if (currentTrackedTextures.exists(key))
+				{
+					var texture = currentTrackedTextures.get(key);
+					texture.dispose();
+					texture = null;
+					currentTrackedTextures.remove(key);
+				}
+				OpenFlAssets.cache.removeBitmapData(key);
+				OpenFlAssets.cache.clearBitmapData(key);
+				OpenFlAssets.cache.clear(key);
+				FlxG.bitmap._cache.remove(key);
+				obj.destroy();
+				FlxDestroyUtil.dispose(obj.bitmap);
+				currentTrackedAssets.remove(key);
+			}
+		}
+		else if (currentTrackedSounds_cacheID.exists(key))
+		{
+			var sound_id:String = currentTrackedSounds_cacheID.get(key);
+			currentTrackedSounds_cacheID.remove(key);
+			OpenFlAssets.cache.removeSound(sound_id);
+			OpenFlAssets.cache.clearSounds(sound_id);
+			currentTrackedSounds.remove(sound_id);
+			key = sound_id;
+		}
+
+		if (remove_local_mem)
+			localTrackedAssets.remove(key);
+	}
+
+	/// haya I love you for the base cache dump I took to the max
+	public static function clearUnusedMemory()
+	{
+		// clear non local assets in the tracked assets list
+		var counter:Int = 0;
+		for (key in currentTrackedAssets.keys())
+		{
+			// if it is not currently contained within the used local assets
+			if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key))
+			{
+				clear_memory_by_key(key);
+				counter++;
+			}
+		}
+
 		// run the garbage collector for good measure lmfao
 		#if (cpp || neko || java || hl)
 		Gc.run(true);
 		Gc.compact();
 		#end
-		}
+	}
 
-	public static function clearStoredMemory():Void
+	public static function clearStoredMemory(?cleanUnused:Bool = false)
 	{
-		FlxG.bitmap.dumpCache();
-
 		@:privateAccess
 		for (key in FlxG.bitmap._cache.keys())
+			clear_memory_by_key(key);
+
+		#if PRELOAD_ALL
+		// clear all sounds that are cached
+		var counterSound:Int = 0;
+		for (key in currentTrackedSounds_cacheID.keys())
 		{
-			if (!currentTrackedAssets["graphics"].exists(key))
+			if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key) && key != null)
 			{
-				var graphic:Null<FlxGraphic> = FlxG.bitmap._cache.get(key);
-				OpenFlAssets.cache.removeBitmapData(key);
-				FlxG.bitmap._cache.remove(key);
-				graphic.destroy();
+				// trace('test: ' + dumpExclusions, key);
+				clear_memory_by_key(key);
+				counterSound++;
+				// Debug.logTrace('Cleared and removed $counterSound cached sounds.');
 			}
 		}
 
-		for (key in OpenFlAssets.cache.getSoundKeys())
+		// Clear everything everything that's left
+		var counterLeft:Int = 0;
+		for (key in OpenFlAssets.cache.getKeys())
 		{
-			if (!currentTrackedAssets["sounds"].exists(key))
-				OpenFlAssets.cache.removeSound(key);
+			if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key) && key != null)
+			{
+				OpenFlAssets.cache.clear(key);
+				counterLeft++;
+				// Debug.logTrace('Cleared and removed $counterLeft cached leftover assets.');
+			}
 		}
 
-		for (key in OpenFlAssets.cache.getFontKeys())
-			OpenFlAssets.cache.removeFont(key);
+		// flags everything to be cleared out next unused memory clear
+		localTrackedAssets = [];
+		openfl.Assets.cache.clear("songs");
+		#end
 
-		localTrackedAssets["sounds"] = localTrackedAssets["graphics"] = [];
+		var cache:haxe.ds.Map<String, FlxGraphic> = cast Reflect.field(FlxG.bitmap, "_cache");
+		for (key => graphic in cache)
+		{
+			if (key.indexOf("text") == 0 && graphic.useCount <= 0)
+			{
+				FlxG.bitmap.remove(graphic);
+			}
+		}
 	}
 
 	static var currentLevel:String;
@@ -228,20 +235,20 @@ class Paths
 
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
 	{
-		return sound(key + Random.randUInt(min, max), library);
+		return sound(key + FlxG.random.int(min, max), library);
 	}
 
 	inline static public function music(key:String, ?library:String)
 	{
-		return returnSound('music', key, library);
+		return returnSound('music', key, library, true);
 	}
 
-	inline static public function voices(song:String, ?prefix:String = '', ?suffix:String = ''):Any
+	inline static public function voices(song:String):Any
 	{
 		#if html5
-		return 'songs:assets/songs/${song.toLowerCase()}/${prefix}Voices${suffix}.$SOUND_EXT';
+		return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
 		#else
-		var songKey:String = '${song.toLowerCase()}/${prefix}Voices${suffix}';
+		var songKey:String = '${formatToSongPath(song)}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
 		#end
@@ -250,10 +257,10 @@ class Paths
 	inline static public function inst(song:String):Any
 	{
 		#if html5
-		return 'songs:assets/songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
+		return 'songs:assets/songs/${formatToSongPath(song)}/Inst.$SOUND_EXT';
 		#else
-		var songKey:String = '${song.toLowerCase()}/Inst';
-		var inst = returnSound('songs', songKey);
+		var songKey:String = '${formatToSongPath(song)}/Inst';
+		var inst = returnSound('songs', songKey, true);
 		return inst;
 		#end
 	}
@@ -310,62 +317,66 @@ class Paths
 				#if (mobile || debug)
 					&& openfl.display.FPS.curMEMforReference > limites[SaveData.curPreset] ^ 2
 					&& PlayState.isPlayState #end)
-					|| currentTrackedAssets["textures"].exists(path) || usarGPU) //Basicamente, se o uso da CPU chegar próximo do limite do aparelho, então a GPU será usada
+					|| currentTrackedTextures.exists(key)
+					|| usarGPU) //Basicamente, se o uso da CPU chegar próximo do limite do aparelho, então a GPU será usada
 				{ //É mais fácil gerenciar a GPU através da CPU do que o contrário.
 					//Caso o jogo consuma mais do que um celular de 2gb pode aguenta,
 					//Ele passa a usar GPU pra segurar o jooj por um pouco mais de tempo antes de precisar reiniciar o APK
-					
-					if (!currentTrackedAssets["textures"].exists(path)){
+					var texture = FlxG.stage.context3D.createTexture(bitmap.width, bitmap.height, BGRA, false, 0);
+					texture.uploadFromBitmapData(bitmap);
+					currentTrackedTextures.set(key, texture);
+					bitmap.disposeImage();
+					FlxDestroyUtil.dispose(bitmap);
+					bitmap = null;
+					graphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key);
 					#if (debug && !mobile)
-					trace('carregando $path por GPU');
+					trace('carregando $key.png por GPU'); // Só tô mandando essa traces pra saber bem o que o jogo carrega durante a gameplay
 					#end
-					var texture:Texture = FlxG.stage.context3D.createTexture(bitmapData.width, bitmapData.height, BGRA, true);
-					texture.uploadFromBitmapData(bitmapData);
-					currentTrackedAssets["textures"].set(path, texture);
-
-					bitmapData.disposeImage();
-					bitmapData.dispose();
-					bitmapData = null;
-					if(usarGPU)
-						noDisposeTextures.push(path);
-					}
-
-					graphic = FlxGraphic.fromBitmapData(openfl.display.BitmapData.fromTexture(currentTrackedAssets["textures"].get(path)), false, path);
-				}else{
-					#if (debug && !mobile)
-					trace('carregando $path por CPU');
-					#end
-					//Checa a cada vez que um asset é carregado pra saber se devemos ou não, ativar a GPU
-					graphic = FlxGraphic.fromBitmapData(bitmapData, false, path);
+				} else {
+					graphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
 				}
 
 				graphic.persist = true;
-				currentTrackedAssets["graphics"].set(path, graphic);
+				currentTrackedAssets.set(key, graphic);
 			}
+			/*else
+				trace('Carregando do cache existente: $key'); */
 
-			localTrackedAssets["graphics"].push(path);
-			return currentTrackedAssets["graphics"].get(path);
+			localTrackedAssets.push(key);
+			return currentTrackedAssets.get(key);
 		}
-		FlxG.log.error('oh no $path is returning null NOOOO');
+
+		trace('Could not find image at path $path');
+		FlxG.log.error('Could not find image at path $path');
 		return null; // Apenas para garantir que o jooj tentará carregar do jeito normal primeiro (ou então ajuidar a descobrir qual o pilantra.)
 	}
 
-	public static function returnSound(path:String, key:String, ?library:String)
-	{
-		var file:String = getPath(path == 'songs' ? '$key.$SOUND_EXT' : '$path/$key.$SOUND_EXT', SOUND, path == 'songs' ? path : library);
+	public static function returnSound(path:String, key:String, ?library:String, stream:Bool = false) {
+		var sound:Sound = null;
+		var file:String = null;
+
 		#if (debug && !mobile)
-		trace('carregando $file'); // Apenas pra eu ter uma noção melhor dos carregamentos desncessauros que esse mod tá fazendo.
+		trace('carregando $key.ogg por RAM/CPU'); // Só tô mandando essa traces pra saber bem o que o jogo carrega durante a gameplay
 		#end
-		if (OpenFlAssets.exists(file))
+
+		// I hate this so god damn much
+		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
+		file = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
+		if (path == 'songs')
+			gottenPath = 'songs:' + gottenPath;
+
+		// trace(gottenPath);
+		if (OpenFlAssets.exists(gottenPath, SOUND))
 		{
-			if (!currentTrackedAssets["sounds"].exists(file))
-				currentTrackedAssets["sounds"].set(file, OpenFlAssets.getSound(file));
-
-			localTrackedAssets["sounds"].push(file);
-			return currentTrackedAssets["sounds"].get(file);
+			if (!currentTrackedSounds_cacheID.exists(key)){
+				currentTrackedSounds_cacheID.set(key, gottenPath);
+				currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(gottenPath));
+			}
 		}
+		else
+			FlxG.log.error('Could not find sound at ${gottenPath}');
 
-		FlxG.log.error('oh no $file is returning null NOOOO');
-		return null;
+		localTrackedAssets.push(gottenPath);
+		return currentTrackedSounds.get(gottenPath);
 	}
 }

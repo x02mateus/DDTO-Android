@@ -6958,13 +6958,13 @@ class PlayState extends MusicBeatState
 						case 844:
 							forcedPause = 'natsuki';
 							creditsCharSwap("natsuki");
-							Paths.limparspriteporchave('credits/window_bottom_' + 'sayori', 'doki');
+							Paths.clear_memory_by_key('credits/window_bottom_sayori');
 							//aquiloQueAMonkaGosta('costumes/sayori-casual', "characters/sayori/Doki_SayoCasual_Assets");
 							case 1228:
 							forcedPause = 'yuri';
 							creditsCharSwap("yuri");
 							summmonStickies(true, 8);
-							Paths.limparspriteporchave('credits/window_bottom_' + 'natsuki', 'doki');
+							Paths.clear_memory_by_key('credits/window_bottom_natsuki');
 							//aquiloQueAMonkaGosta('costumes/natsuki-casual', "characters/natsuki/Doki_NatCasual_Assets");
 						case 1392:
 							if (staticcredits != null){
@@ -6994,14 +6994,14 @@ class PlayState extends MusicBeatState
 							forcedPause = 'protag';
 							creditsCharSwap("protag");
 							summmonStickies(true, 8);
-							Paths.limparspriteporchave('credits/window_bottom_' + 'yuri', 'doki');
+							Paths.clear_memory_by_key('credits/window_bottom_yuri');
 							//aquiloQueAMonkaGosta('costumes/yuri-crazy-casual', "characters/yuri/Doki_Yuri_Casual_Crazy_Assets");
 							//aquiloQueAMonkaGosta('costumes/yuri-casual', "characters/yuri/Doki_Yuri_Casual_Assets");
 				
 						case 1876:
 							forcedPause = 'monika';
 							creditsCharSwap("monika");
-							Paths.limparspriteporchave('credits/window_bottom_' + 'protag', 'doki');
+							Paths.clear_memory_by_key('credits/window_bottom_protag');
 							//aquiloQueAMonkaGosta('costumes/protag-casual', "characters/protag/protag_casual");
 
 						case 2240:
@@ -7633,7 +7633,7 @@ class PlayState extends MusicBeatState
 							destruirsprites(libAwaken, 'libitina/SheAwakens', 'doki');
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							addcharacter('ghost-sketch', 0);
-							Paths.limparspriteporchave('characters/ghost/LibiIntro_Assets', 'preload');
+							Paths.clear_memory_by_key('characters/ghost/LibiIntro_Assets');
 							boyfriend.cameras = [camGame2];
 
 							remove(grpPopups);
@@ -8651,7 +8651,7 @@ class PlayState extends MusicBeatState
 				{
 					stickerSprites.visible = false;
 					for(stick in microArrayofStickies){
-						Paths.limparspriteporchave(stick, 'preload');
+						Paths.clear_memory_by_key(stick);
 						microArrayofStickies.remove(stick);
 						
 					}
@@ -9184,16 +9184,17 @@ class PlayState extends MusicBeatState
 			preloadMap.get(json).destroy();
 			preloadMap.remove(json);
 		}
-		Paths.limparspriteporchave(png, 'preload');
+		Paths.clear_memory_by_key(png);
 	}
 
-	function destruirsprites(sprite:FlxSprite, chave:String = '', library:String = ''){
+	function destruirsprites(sprite:FlxSprite, chave:String = '', remove_local_mem:Bool = false)
+	{
 		sprite.visible = false;
 		remove(sprite);
 		sprite.kill();
 		sprite.destroy();
-		if(chave.length > 2)
-			Paths.limparspriteporchave(chave, library);
+		if (chave.length > 2)
+			Paths.clear_memory_by_key(chave, remove_local_mem);
 	}
 }
 //Oi monkaaaaaaaaaaaaa turu bão??? Aparentemente o x02 gostou de te deletar...
