@@ -90,7 +90,7 @@ class CatfightPopup extends MusicBeatSubstate
 		{
 			if (controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end)
 			{
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 	
 				if (isFreePlay)
 					DokiFreeplayState.instance.acceptInput = true;
@@ -122,7 +122,7 @@ class CatfightPopup extends MusicBeatSubstate
 		}	
 		else
 		{
-			GlobalSoundManager.play('confirmMenu');
+			GlobalSoundManager.play(confirmMenu);
 			PlayState.isYuri = (curSelected == 0 ? true : false);
 			DokiSideStory.sidestoryinstance.loadSong('Catfight');
 			canpressbuttons = false;
@@ -131,7 +131,7 @@ class CatfightPopup extends MusicBeatSubstate
 
 	function changeItem(amt:Int = 0):Void
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 
 		curSelected += amt;
 

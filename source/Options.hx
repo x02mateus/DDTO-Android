@@ -530,14 +530,14 @@ class MiddleScrollOption extends Option
 
 	override function left():Bool
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 		SaveData.middleOpponent = !SaveData.middleOpponent;
 		return true;
 	}
 
 	override function right():Bool
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 		SaveData.middleOpponent = !SaveData.middleOpponent;
 		return true;
 	}
@@ -633,7 +633,7 @@ class LaneUnderlayOption extends Option
 		display = updateDisplay();
 		SaveData.save();
 
-		GlobalSoundManager.play('clickText');
+		GlobalSoundManager.play(clickText);
 
 		return true;
 	}
@@ -651,7 +651,7 @@ class LaneUnderlayOption extends Option
 		display = updateDisplay();
 		SaveData.save(); //PQQQQQQQQQQQQQ AAAAAAAAAAAAAAAAA
 
-		GlobalSoundManager.play('clickText');
+		GlobalSoundManager.play(clickText);
 
 		return true;
 	}
@@ -661,6 +661,45 @@ class LaneUnderlayOption extends Option
 		return 'Volume atual dos sons' + ': ${FlxMath.roundDecimal(SaveData.soundEffectsVolume, 1) * 100}%';
 	}
 }*/
+
+class SFXVolumesOption extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+		acceptValues = true;
+	}
+
+	public override function press():Bool
+	{
+		return false;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Volume dos efeitos do jogo";
+	}
+
+	override function right():Bool
+	{
+		SaveData.efeitosVolume += 0.25;
+
+		return true;
+	}
+
+	override function left():Bool
+	{
+		SaveData.efeitosVolume -= 0.25;
+
+		return true;
+	}
+
+	override function getValue():String
+	{
+		return 'Volume dos efeitos do jogo: ${SaveData.efeitosVolume}';
+	}
+}
 
 class HitSoundOption extends Option
 {

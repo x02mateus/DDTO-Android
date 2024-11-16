@@ -80,7 +80,7 @@ class CloseGameSubState extends MusicBeatSubstate
 
 	function changeItem(huh:Int = 0)
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 
 		curSelected = huh;
 
@@ -101,7 +101,7 @@ class CloseGameSubState extends MusicBeatSubstate
 		}
 		else
 		{
-			GlobalSoundManager.play('cancelMenu');
+			GlobalSoundManager.play(cancelMenu);
 			MusicBeatState.resetState();
 			close();
 		}

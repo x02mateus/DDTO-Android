@@ -366,7 +366,7 @@ class MainMenuState extends MusicBeatState
 	{
 		acceptInput = false;
 		selectedSomethin = true;
-		GlobalSoundManager.play('confirmMenu');
+		GlobalSoundManager.play(confirmMenu);
 
 		menuItems.forEach(function(txt:FlxText)
 		{

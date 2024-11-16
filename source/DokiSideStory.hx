@@ -87,7 +87,7 @@ class DokiSideStory extends MusicBeatSubstate
 			#end
 			if (controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end)
 			{
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				DokiStoryState.instance.acceptInput = true;
 				close();
 			}
@@ -118,7 +118,7 @@ class DokiSideStory extends MusicBeatSubstate
 	}
 
 	function aceitas(){
-		GlobalSoundManager.play('confirmMenu');
+		GlobalSoundManager.play(confirmMenu);
 		curDifficulty = 1;
 		if (curSong.toLowerCase() == "catfight")
 		{
@@ -139,7 +139,7 @@ class DokiSideStory extends MusicBeatSubstate
 			curSelected = trocadireta;
 
 		if (prevselected != curSelected)
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 
 		if (curSelected == 5 && prevselected != 4)
 			curSelected = 4;

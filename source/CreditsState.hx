@@ -73,7 +73,7 @@ class CreditsState extends MusicBeatState
 
 		if (pageFlipped)
 		{
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 			pageFlipped = false;
 		}
 		else
@@ -195,13 +195,13 @@ class CreditsState extends MusicBeatState
 		{
 			if (controls.UP_P)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				changeItem(-1);
 			}
 
 			if (controls.DOWN_P)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				changeItem(1);
 			}
 
@@ -231,7 +231,7 @@ class CreditsState extends MusicBeatState
 			{
 				curPage = 0;
 				FlxG.sound.music.stop();
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				MusicBeatState.switchState(new MainMenuState());
 			}
 		}

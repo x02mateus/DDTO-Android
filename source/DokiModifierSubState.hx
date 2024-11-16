@@ -87,7 +87,7 @@ class DokiModifierSubState extends MusicBeatSubstate
 		{
 			if (controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end)
 			{
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				DokiFreeplayState.instance.acceptInput = true;
 				SaveData.save();
 				close();
@@ -113,7 +113,7 @@ class DokiModifierSubState extends MusicBeatSubstate
 
 			if (FlxG.keys.justPressed.R)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				setValue(modifierData[curSelected][5]);
 				updateText();
 			}
@@ -127,7 +127,7 @@ class DokiModifierSubState extends MusicBeatSubstate
 
 
 		if (prevSelected != curSelected)
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 
 		if (curSelected >= modifierData.length)
 			curSelected = 0;
@@ -213,7 +213,7 @@ class DokiModifierSubState extends MusicBeatSubstate
 		}
 
 		if (!FlxG.keys.pressed.SHIFT)
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 
 		updateText();
 	}

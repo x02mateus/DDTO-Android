@@ -103,14 +103,14 @@ class PresetsSubstate extends MusicBeatSubstate
 		{
 			if (controls.UP_P)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				changeItem(-1);
 				updateJudgement();
 			}
 
 			if (controls.DOWN_P)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				changeItem(1);
 				updateJudgement();
 			}

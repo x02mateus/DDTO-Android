@@ -304,7 +304,7 @@ class DokiStoryState extends MusicBeatState
 			if (controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end)
 			{
 				acceptInput = false;
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				MusicBeatState.switchState(new MainMenuState());
 			}
 
@@ -398,13 +398,13 @@ class DokiStoryState extends MusicBeatState
 	{
 		if (curPos == 8 && icons[curPos][1])
 		{
-			GlobalSoundManager.play('confirmMenu');
+			GlobalSoundManager.play(confirmMenu);
 			openSubState(new DokiSideStory());
 		}
 		else if (icons[curPos][1])
 		{
 			selectedSomethin = true;
-			GlobalSoundManager.play('confirmMenu');
+			GlobalSoundManager.play(confirmMenu);
 			goToState();
 		}
 	}
@@ -418,7 +418,7 @@ class DokiStoryState extends MusicBeatState
 			curPos = trocadireta;
 
 		if (prevselected != curPos)
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 
 		//Tenho minhas dúvidas se esse code é util agora que tudo é por touch...
 		if (!SaveData.beatFestival)

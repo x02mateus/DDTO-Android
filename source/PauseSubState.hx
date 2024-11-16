@@ -477,7 +477,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	function changeSelection(change:Int = 0):Void
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 
 		curSelected += change;
 
@@ -528,7 +528,7 @@ class PauseSubState extends MusicBeatSubstate
 	function closeMenu()
 	{
 		//Tweens!
-		GlobalSoundManager.play('confirmMenu');
+		GlobalSoundManager.play(confirmMenu);
 		canPress = false;
 
 		FlxTween.cancelTweensOf(pauseArt);

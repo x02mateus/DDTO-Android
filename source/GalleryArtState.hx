@@ -127,7 +127,7 @@ class GalleryArtState extends MusicBeatState
 		{
 			stopit = true;
 			FlxG.sound.music.stop();
-			GlobalSoundManager.play('cancelMenu');
+			GlobalSoundManager.play(cancelMenu);
 			MusicBeatState.switchState(new MainMenuState());
 		}
 		
@@ -138,7 +138,7 @@ class GalleryArtState extends MusicBeatState
 		
 		if ((controls.ACCEPT || BSLTouchUtils.apertasimples(artwork)) && !stopit && !artworkData[curSelected].contains('antipathy'))
 		{
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 			CoolUtil.openURL(urlData[curSelected]);
 		}
 		else if (BSLTouchUtils.apertasimples(artwork) && artworkData[curSelected].contains('antipathy') && !dontSpam)
@@ -160,7 +160,7 @@ class GalleryArtState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 
 		curSelected += huh;
 

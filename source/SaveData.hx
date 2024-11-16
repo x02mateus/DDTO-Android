@@ -65,6 +65,7 @@ class SaveData
 	public static var hitSound:Null<Bool> = false;
 	public static var judgeHitSound:Null<Bool> = false;
 	public static var hitSoundVolume:Null<Float> = 1;
+	public static var efeitosVolume:Null<Float> = 1;
 	public static var noteSplash:Null<Bool> = false;
 	public static var earlyLate:Null<Bool> = false;
 	public static var autoPause:Null<Bool> = false;

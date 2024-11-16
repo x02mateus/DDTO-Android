@@ -218,7 +218,7 @@ class DialogueBox extends FlxSpriteGroup
 				endinstantly();
 			}else if ((PlayerSettings.player1.controls.ACCEPT || BSLTouchUtils.justTouched()) && dialogueEnded)
 			{
-				GlobalSoundManager.play('clickText');
+				GlobalSoundManager.play(clickText);
 				enddialogue();
 			}
 			else if ((PlayerSettings.player1.controls.ACCEPT || BSLTouchUtils.justTouched()) && dialogueStarted)

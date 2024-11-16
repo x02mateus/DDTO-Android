@@ -385,7 +385,7 @@ class DokiFreeplayState extends MusicBeatState
 
 			if (BSLTouchUtils.apertasimples(modifierMenu))
 			{
-				GlobalSoundManager.play('confirmMenu');
+				GlobalSoundManager.play(confirmMenu);
 				openSubState(new DokiModifierSubState());
 			}
 
@@ -399,7 +399,7 @@ class DokiFreeplayState extends MusicBeatState
 				}
 				else
 				{
-					GlobalSoundManager.play('scrollMenu');
+					GlobalSoundManager.play(scrollMenu);
 					changeItem(-1);
 				}
 			}
@@ -411,7 +411,7 @@ class DokiFreeplayState extends MusicBeatState
 				}
 				else
 				{
-					GlobalSoundManager.play('scrollMenu');
+					GlobalSoundManager.play(scrollMenu);
 					changeItem(1);
 				}
 			}
@@ -455,7 +455,7 @@ class DokiFreeplayState extends MusicBeatState
 						pageFlipped = false;
 						curSelected = 0;
 						curPage = 0;
-						GlobalSoundManager.play('cancelMenu');
+						GlobalSoundManager.play(cancelMenu);
 						MusicBeatState.switchState(new MainMenuState());
 				}
 			}
@@ -468,13 +468,13 @@ class DokiFreeplayState extends MusicBeatState
 
 			if (controls.LEFT_P && diffselect)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				changeDiff(-1);
 			}
 
 			if (controls.RIGHT_P && diffselect)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				changeDiff(1);
 			}
 
@@ -499,7 +499,7 @@ class DokiFreeplayState extends MusicBeatState
 	{
 		pageFlipped = false;
 		selectedSomethin = true;
-		GlobalSoundManager.play('confirmMenu');
+		GlobalSoundManager.play(confirmMenu);
 		menu_character.y -= 31;
 		menu_character.animation.play('pop_off');
 		grpSongs.forEach(function(spr:FlxSprite)
@@ -550,12 +550,12 @@ class DokiFreeplayState extends MusicBeatState
 				switch (songs[curSelected].songName.toLowerCase())
 				{
 					case 'epiphany':
-						GlobalSoundManager.play('confirmMenu');
+						GlobalSoundManager.play(confirmMenu);
 						diffType = 0;
 						diff.visible = true;
 						diffselect = true;
 					case 'baka' | 'shrinking violet' | 'love n funkin':
-						GlobalSoundManager.play('confirmMenu');
+						GlobalSoundManager.play(confirmMenu);
 						diffType = 1;
 						diff.visible = true;
 						diffselect = true;

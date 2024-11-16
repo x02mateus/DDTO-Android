@@ -311,7 +311,7 @@ class GameplayCustomizeState extends MusicBeatState
 
 		if (controls.BACK #if android || FlxG.android.justReleased.BACK #end)
 		{
-			GlobalSoundManager.play('cancelMenu');
+			GlobalSoundManager.play(cancelMenu);
 			MusicBeatState.switchState(new OptionsState());
 		}
 	}

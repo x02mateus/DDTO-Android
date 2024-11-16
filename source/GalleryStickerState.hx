@@ -119,7 +119,7 @@ class GalleryStickerState extends MusicBeatState
 		if (controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end)
 		{
 			FlxG.sound.music.stop();
-			GlobalSoundManager.play('cancelMenu');
+			GlobalSoundManager.play(cancelMenu);
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
@@ -129,7 +129,7 @@ class GalleryStickerState extends MusicBeatState
 			changeItem(1);
 		else if (controls.ACCEPT || BSLTouchUtils.apertasimples(sticker) && stickerData[curSelected] != 'grandhammer')
 		{
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 			CoolUtil.openURL(urlData[curSelected]);
 		}
 
@@ -152,7 +152,7 @@ class GalleryStickerState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 
 		curSelected += huh;
 

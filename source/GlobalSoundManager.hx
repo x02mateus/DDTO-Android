@@ -1,95 +1,35 @@
 package;
 
-// @todo: atualizar pro code mais novo do projeto-secreto
-
-import flixel.FlxG;
 #if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
 #else
 import flixel.system.FlxSound;
 #end
 
-class GlobalSoundManager
-{
-	public static var confirm:FlxSound;
-	public static var cancel:FlxSound;
-	public static var scroll:FlxSound;
-	public static var clickText:FlxSound;
+class GlobalSoundManager // Originalmente feito para o port de DDTO+ Android
+{ // Aparentemente isso ajuda no cache subindo até o infinito e além.
+	// Mas o mais importante mesmo é que permite customizar o barulho dos efeitos sonoros.
+	public static var listaDeSons:Map<String, FlxSound> = [];
 
-	public static var listaDeSons:Array<String> = []; //Por algum motivo a lista de FlxSound não funfa aqui... Devéras sus
-
-	public static function init(?som:FlxSound):Void
+	public static function play(?som:Sounds, forceRestart:Bool = true):Void
 	{
-		if (som == confirm){
-			confirm = null;
-			confirm = new FlxSound().loadEmbedded(Paths.sound('confirmMenu'));
-			confirm.volume = 0.7;
-			FlxG.sound.list.add(confirm);
-		}
-		
-		if (som == cancel)
-		{
-			cancel = null;
-			cancel = new FlxSound().loadEmbedded(Paths.sound('cancelMenu'));
-			cancel.volume = 0.7;
-			FlxG.sound.list.add(cancel);
-		}
-
-
-		if (som == scroll)
-		{
-			scroll = null;
-			scroll = new FlxSound().loadEmbedded(Paths.sound('scrollMenu'));
-			scroll.volume = 0.7;
-			FlxG.sound.list.add(scroll);
-		}
-
-		if (som == clickText)
-		{
-			clickText = null;
-			clickText = new FlxSound().loadEmbedded(Paths.sound('clickText'));
-			clickText.volume = 0.7;
-			FlxG.sound.list.add(clickText);
-		}
-
-	}
-
-	public static function play(som:String):Void
-	{
-		if (0.7 > 0)
-		{
-			switch (som)
-			{
-				case 'confirmMenu':
-					if (!verifiqueSeExisteEentaoadicione(som))
-						init(confirm);
-
-					confirm.play(true);
-				case 'clickText':
-					if (!verifiqueSeExisteEentaoadicione(som))
-						init(clickText);
-
-					clickText.play(true);
-				case 'scrollMenu':
-					if (!verifiqueSeExisteEentaoadicione(som))
-						init(scroll);
-
-					scroll.play(true);
-				case 'cancelMenu':
-					if (!verifiqueSeExisteEentaoadicione(som))
-						init(cancel);
-
-					cancel.play(true);
-			}
+		if (listaDeSons.exists(som))
+			listaDeSons.get(som).play(forceRestart);
+		else{
+			var temp = new FlxSound().loadEmbedded(Paths.sound(som, "preload"));
+			temp.volume = SaveData.efeitosVolume;
+			temp.persist = true;
+			flixel.FlxG.sound.list.add(temp).play(forceRestart);
+			listaDeSons.set(som, temp);
 		}
 	}
+	//As vezes eu odeio uma mineira...
+	public inline static function changeVolumes(){for (sound in listaDeSons) {sound.volume = SaveData.efeitosVolume;}}
+}
 
-	public static function verifiqueSeExisteEentaoadicione(nome:String):Bool
-	{
-		if (!listaDeSons.contains(nome)){
-			listaDeSons.push(nome);
-			return false;
-		}else
-			return true;
-	}
+enum abstract Sounds(String) to String from String {
+	final confirmMenu = "confirmMenu";
+	final cancelMenu = "cancelMenu";
+	final scrollMenu = "scrollMenu";
+	final clickText = "clickText";
 }

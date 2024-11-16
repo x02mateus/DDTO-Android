@@ -44,6 +44,7 @@ class OptionsState extends MusicBeatState
 			new ScrollSpeedOption(LangUtil.getString('descScroll', 'option')),
 			new ResetButtonOption(LangUtil.getString('descReset', 'option')),
 			//new BotPlay(LangUtil.getString('descBotplay', 'option')),
+			new SFXVolumesOption('Altere o volume dos efeitos sonoros do jogo.'),
 			new HitSoundOption(LangUtil.getString('descHitSound', 'option')),
 			new HitSoundJudgements(LangUtil.getString('descHitSoundJudge', 'option')),
 			new AutoPause(LangUtil.getString('descAutoPause', 'option'))
@@ -188,7 +189,8 @@ class OptionsState extends MusicBeatState
 			if ((controls.BACK #if android || FlxG.android.justReleased.BACK #end) && !isCat)
 			{
 				acceptInput = false;
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
+				GlobalSoundManager.changeVolumes(); // Feito unica e exclusivamente pra salvar os novos volumes.
 				SaveData.save();
 				MusicBeatState.switchState(new MainMenuState());
 			}

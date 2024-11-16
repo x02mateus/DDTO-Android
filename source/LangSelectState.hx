@@ -77,19 +77,19 @@ class LangSelectState extends MusicBeatState
 			if (controls.BACK #if android || FlxG.android.justReleased.BACK #end)
 			{
 				selectedSomethin = true;
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				MusicBeatState.switchState(new OptionsState());
 			}
 
 			if (controls.UP_P)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				curSelected -= 1;
 			}
 
 			if (controls.DOWN_P)
 			{
-				GlobalSoundManager.play('scrollMenu');
+				GlobalSoundManager.play(scrollMenu);
 				curSelected += 1;
 			}
 
@@ -110,7 +110,7 @@ class LangSelectState extends MusicBeatState
 			if (controls.ACCEPT)
 			{
 				selectedSomethin = true;
-				GlobalSoundManager.play('confirmMenu');
+				GlobalSoundManager.play(confirmMenu);
 
 				grpOptionsTexts.forEach(function(txt:FlxText)
 				{

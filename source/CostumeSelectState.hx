@@ -251,12 +251,12 @@ class CostumeSelectState extends MusicBeatState
 				selectedSomethin = true;
 				SaveData.save();
 				FlxG.sound.music.stop();
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				MusicBeatState.switchState(new DokiFreeplayState());
 			}
 			if ((controls.BACK || _backButton.justPressed #if android || FlxG.android.justReleased.BACK #end) && selectingcostume)
 			{
-				GlobalSoundManager.play('cancelMenu');
+				GlobalSoundManager.play(cancelMenu);
 				costumeselect(false);
 				
 				// Initial bug is that, if you have a selected character, but
@@ -398,7 +398,7 @@ class CostumeSelectState extends MusicBeatState
 			flavorText.visible = true;
 			flavorBar.visible = true;
 
-			GlobalSoundManager.play('confirmMenu');
+			GlobalSoundManager.play(confirmMenu);
 
 			var daSelection = costumeJSON.list[curSelected];
 			trace(daSelection);
@@ -451,7 +451,7 @@ class CostumeSelectState extends MusicBeatState
 
 	function changeItem(huh:Int = 0) //PT1
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 		curSelected += huh;
 
 		var daChoice:String = character[curSelected];
@@ -473,7 +473,7 @@ class CostumeSelectState extends MusicBeatState
 							
 	function changeItemDirectly(huh:Int = 0) //PT1
 	{
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 		curSelected = huh;
 
 		var daChoice:String = character[curSelected];
@@ -496,7 +496,7 @@ class CostumeSelectState extends MusicBeatState
 	function changecostume(huh:Int = 0, goingforward:Bool = true) //PT2
 	{
 		var daChoice:String = character[curSelected];
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 		costumeSelected += huh;
 
 		trace(hueh);
@@ -533,7 +533,7 @@ class CostumeSelectState extends MusicBeatState
 	function changeCostumeDirectly(huh:Int = 0, goingforward:Bool = true) //PT2
 	{
 		var daChoice:String = character[curSelected];
-		GlobalSoundManager.play('scrollMenu');
+		GlobalSoundManager.play(scrollMenu);
 		costumeSelected = huh;
 
 		trace(hueh);
@@ -646,7 +646,7 @@ class CostumeSelectState extends MusicBeatState
 			if (daChoice == "natsuki" && costumeSelected == 0 && SaveData.natsukicostume == "buff")
 				FlxG.sound.play(Paths.sound('buff'));
 			else
-				GlobalSoundManager.play('confirmMenu');
+				GlobalSoundManager.play(confirmMenu);
 
 			costumeselect(false);
 		}

@@ -135,7 +135,7 @@ class DokiCards extends MusicBeatSubstate
 		acceptInput = false;
 		funnyChar = who;
 		curSelected = num;
-		GlobalSoundManager.play('confirmMenu');
+		GlobalSoundManager.play(confirmMenu);
 
 		selectGrp.forEach(function(hueh:FlxSprite)
 		{

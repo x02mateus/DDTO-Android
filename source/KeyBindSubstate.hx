@@ -105,19 +105,19 @@ class KeyBindSubstate extends MusicBeatSubstate
 				case "select":
 					if (FlxG.keys.justPressed.UP)
 					{
-						GlobalSoundManager.play('scrollMenu');
+						GlobalSoundManager.play(scrollMenu);
 						changeItem(-1);
 					}
 
 					if (FlxG.keys.justPressed.DOWN)
 					{
-						GlobalSoundManager.play('scrollMenu');
+						GlobalSoundManager.play(scrollMenu);
 						changeItem(1);
 					}
 
 					if (FlxG.keys.justPressed.ENTER)
 					{
-						GlobalSoundManager.play('scrollMenu');
+						GlobalSoundManager.play(scrollMenu);
 						state = "input";
 					}
 					else if (FlxG.keys.justPressed.ESCAPE)
@@ -142,7 +142,7 @@ class KeyBindSubstate extends MusicBeatSubstate
 					{
 						keys[curSelected] = tempKey;
 						state = "select";
-						GlobalSoundManager.play('confirmMenu');
+						GlobalSoundManager.play(confirmMenu);
 					}
 					else if (FlxG.keys.justPressed.ENTER)
 					{
@@ -269,7 +269,7 @@ class KeyBindSubstate extends MusicBeatSubstate
 				keys[swapKey] = tempKey;
 			}
 			keys[curSelected] = r;
-			GlobalSoundManager.play('scrollMenu');
+			GlobalSoundManager.play(scrollMenu);
 		}
 		else
 		{
