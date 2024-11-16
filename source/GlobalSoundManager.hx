@@ -1,5 +1,7 @@
 package;
 
+// @todo: atualizar pro code mais novo do projeto-secreto
+
 import flixel.FlxG;
 #if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;

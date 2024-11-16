@@ -1,5 +1,8 @@
 package;
 
+// @todo: mesclar os codes de GPU e CPU com os mais novos dos projetos mais atualizados
+//		  (projeto-secreto, port do arrow funk que eu tava fazendo, miku, etc)
+
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;

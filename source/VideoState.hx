@@ -1,5 +1,7 @@
 package; //Furtado de um lugar secreto shhhhhhhhhhhhhhhhhhhhh
 
+// @todo: ver se dá pra trocar algo aqui (atualizar pro code mais novo do projeto-secreto, ou sla.)
+
 #if mobile
 import extension.webview.WebView;
 import flixel.FlxG;

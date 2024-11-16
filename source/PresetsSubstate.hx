@@ -1,5 +1,8 @@
 package; //Ainda incompleto... Mas já são 4 da manhã e eu tô com sono...
 
+// @todo: automatizar isso com o sistema de presets da X02Engine (descobrir o tanto de ram do sistema, setar
+//		  o limite de ram e colocar as opções do preset automaticamente.)
+
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxAxes;
 import flixel.FlxSubState;

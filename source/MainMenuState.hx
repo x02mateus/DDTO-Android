@@ -1,5 +1,7 @@
 package;
 
+// @todo: remover o easter egg e fazer um melhor, sla kek
+
 import Controls.KeyboardScheme;
 import haxe.Json;
 import lime.utils.Assets;

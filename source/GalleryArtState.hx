@@ -1,5 +1,7 @@
 package;
 
+// @todo: arrumar a memória subindo MUITO
+
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;

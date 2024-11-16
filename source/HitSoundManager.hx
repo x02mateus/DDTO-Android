@@ -1,5 +1,7 @@
 package;
 
+// @todo: fazer isso não carregar todos os hitsounds
+
 import flixel.FlxG;
 #if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
