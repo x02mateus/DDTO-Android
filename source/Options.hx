@@ -684,6 +684,11 @@ class SFXVolumesOption extends Option
 	override function right():Bool
 	{
 		SaveData.efeitosVolume += 0.25;
+		
+		if(SaveData.efeitosVolume < 0)
+			SaveData.efeitosVolume = 0;
+		if(SaveData.efeitosVolume > 1)
+			SaveData.efeitosVolume = 1;
 
 		return true;
 	}
@@ -691,6 +696,11 @@ class SFXVolumesOption extends Option
 	override function left():Bool
 	{
 		SaveData.efeitosVolume -= 0.25;
+		
+		if(SaveData.efeitosVolume < 0)
+			SaveData.efeitosVolume = 0;
+		if(SaveData.efeitosVolume > 1)
+			SaveData.efeitosVolume = 1;
 
 		return true;
 	}
