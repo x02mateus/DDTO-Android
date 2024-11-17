@@ -552,11 +552,17 @@ class DokiFreeplayState extends MusicBeatState
 					case 'epiphany':
 						GlobalSoundManager.play(confirmMenu);
 						diffType = 0;
+						pageNum.visible = false;
+						rightArrow.visible = false;
+						leftArrow.visible = false;
 						diff.visible = true;
 						diffselect = true;
 					case 'baka' | 'shrinking violet' | 'love n funkin':
 						GlobalSoundManager.play(confirmMenu);
 						diffType = 1;
+						pageNum.visible = false;
+						rightArrow.visible = false;
+						leftArrow.visible = false;
 						diff.visible = true;
 						diffselect = true;
 					default:

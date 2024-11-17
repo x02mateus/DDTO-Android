@@ -37,6 +37,10 @@ class TitleState extends MusicBeatState
 
 		SaveData.init();
 		CoolUtil.setFPSCap(SaveData.framerate);
+		if (SaveData.firstTime) {
+			PresetsManager.checkandset();
+			SaveData.firstTime = false;
+		}
 		#if !FLX_NO_GAMEPAD
 		KeyBinds.gamepad = FlxG.gamepads.lastActive != null;
 		#end

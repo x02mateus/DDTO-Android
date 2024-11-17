@@ -258,9 +258,9 @@ class Paths
 	inline static public function inst(song:String):Any
 	{
 		#if html5
-		return 'songs:assets/songs/${formatToSongPath(song)}/Inst.$SOUND_EXT';
+		return 'songs:assets/songs/${song.toLowerCase()}/Inst.$SOUND_EXT';
 		#else
-		var songKey:String = '${formatToSongPath(song)}/Inst';
+		var songKey:String = '${song.toLowerCase()}/Inst';
 		var inst = returnSound('songs', songKey, true);
 		return inst;
 		#end

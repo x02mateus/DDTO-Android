@@ -340,7 +340,7 @@
                     "name": "nameHenry",
                     "desc": "descHenry",
                     "unlock": "unlockHenry",
-                    "color": "#F0F4FA"
+                    "color": "0xF0F4FA"
                 },
                 {
                     "data": "blueskies",

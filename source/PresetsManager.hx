@@ -30,8 +30,9 @@ class PresetsManager
 	private static function setPreset(preset:Int)
 	{
 		SaveData.curPreset = preset;
-		switch(preset) {
-			case 2:
+		switch(preset) { // Era justamente ao contrário.
+			// Me sinto mal errando no code que eu mesmo fiz...
+			case 0:
 				SaveData.gpuTextures = false; // Não acho que um gama alta precise, mas...
 				SaveData.ratingVisivel = true;
 				SaveData.removergirlfriend = false;
@@ -47,7 +48,7 @@ class PresetsManager
 				SaveData.lowEnd = false;
 				SaveData.flashing = true;
 				SaveData.framerate = 60;
-			case 0:
+			case 2:
 				SaveData.gpuTextures = false;
 				SaveData.ratingVisivel = false;
 				SaveData.removergirlfriend = true;

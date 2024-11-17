@@ -95,8 +95,6 @@ class Main extends Sprite
 
 		FlxG.fixedTimestep = false;
 
-		PresetsManager.checkandset();
-
 		if (fpsVar != null)
 			fpsVar.visible = SaveData.showFPS;
 

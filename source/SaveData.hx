@@ -18,6 +18,7 @@ class SaveData
 
 	public static var language:String = 'en-US';
 	public static var weekUnlocked:Null<Int> = 1;
+	public static var firstTime:Null<Bool> = true;
 	public static var downScroll:Null<Bool> = false;
 	public static var coolGameplay:Null<Bool> = false;
 	public static var lowEnd:Null<Bool> = false;
