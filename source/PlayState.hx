@@ -6722,8 +6722,8 @@ class PlayState extends MusicBeatState
 							wiltedhey_senpai.alpha = 1;
 							wiltedhey_senpai.animation.play('Hey_Senpai');
 						case 929:
-							destruirsprites(wiltedhey_senpai, 'wilt/hoii_senpai', 'doki');
-							destruirsprites(wiltedhey, 'wilt/hoii', 'doki');
+							destruirsprites(wiltedhey_senpai, 'wilt/hoii_senpai');
+							destruirsprites(wiltedhey, 'wilt/hoii');
 						case 928:
 							wiltswap(0);
 							addcharacter("senpai-angry", 1);
@@ -6733,8 +6733,8 @@ class PlayState extends MusicBeatState
 							wiltedHmph.alpha = 1;
 							wiltedHmph.animation.play('Hmph');
 						case 1064:
-							destruirsprites(wiltbg, 'wilt/bg', 'doki');
-							destruirsprites(wiltedwindow, 'wilt/p1', 'doki');
+							destruirsprites(wiltbg, 'wilt/bg');
+							destruirsprites(wiltedwindow, 'wilt/p1');
 							dad.visible = false;
 							boyfriend.visible = false;
 						case 1100:
@@ -6982,7 +6982,7 @@ class PlayState extends MusicBeatState
 						case 1488:
 							if (staticcredits != null){ staticcredits.alpha = 0.0001;
 							staticcredits.visible = false;
-							destruirsprites(staticcredits, 'credits/HomeStatic', 'doki');
+							destruirsprites(staticcredits, 'credits/HomeStatic');
 							}
 							dad.visible = true;
 							dad.alpha = 1;
@@ -7487,7 +7487,7 @@ class PlayState extends MusicBeatState
 							poemVideo.kill();
 							poemVideo.destroy();
 							sideWindow.alpha = 0.001;
-							destruirsprites(sideWindow, 'notepad/SideWindow', 'doki');
+							destruirsprites(sideWindow, 'notepad/SideWindow');
 
 							new FlxTimer().start(0.7, function(tmr:FlxTimer)
 							{
@@ -7549,7 +7549,7 @@ class PlayState extends MusicBeatState
 
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							extractPopup.alpha = 0.001;
-							destruirsprites(extractPopup, 'libitina/extracting', 'doki');
+							destruirsprites(extractPopup, 'libitina/extracting');
 							if (!SaveData.lowEnd)
 							{
 							deskBG2Overlay.alpha = 0.15;
@@ -7590,7 +7590,7 @@ class PlayState extends MusicBeatState
 							}
 						case 384:
 							libHando.alpha = 0.001;
-							destruirsprites(libHando, 'libitina/Hando', 'doki');
+							destruirsprites(libHando, 'libitina/Hando');
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							libiWindow.scale.set(1, 1);
 							boyfriend.setPosition(170, -50);
@@ -7630,7 +7630,7 @@ class PlayState extends MusicBeatState
 							}
 							grpPopups.visible = true;
 							libAwaken.alpha = 0.001;
-							destruirsprites(libAwaken, 'libitina/SheAwakens', 'doki');
+							destruirsprites(libAwaken, 'libitina/SheAwakens');
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							addcharacter('ghost-sketch', 0);
 							Paths.clear_memory_by_key('characters/ghost/LibiIntro_Assets');
@@ -7644,7 +7644,7 @@ class PlayState extends MusicBeatState
 								FlxTween.tween(testVMLE, {alpha: 0.001}, CoolUtil.calcSectionLength(), {ease: FlxEase.sineOut,
 								onComplete: function(tween:FlxTween)
 								{
-									destruirsprites(testVMLE, 'libitina/testVM', 'doki');
+									destruirsprites(testVMLE, 'libitina/testVM');
 								}
 							});
 						case 1200:
@@ -7653,7 +7653,7 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(deskBG2Overlay, {alpha: 0.001}, CoolUtil.calcSectionLength(), {ease: FlxEase.linear,
 								onComplete: function(tween:FlxTween)
 								{
-									destruirsprites(deskBG2Overlay, 'libitina/lightoverlay', 'doki');
+									destruirsprites(deskBG2Overlay, 'libitina/lightoverlay');
 								}
 							});
 							}
@@ -7679,7 +7679,7 @@ class PlayState extends MusicBeatState
 							add(libVignette);
 						case 1712:
 							ghostBG.alpha = 0.001;
-							destruirsprites(ghostBG, 'libitina/ghostbg', 'doki');
+							destruirsprites(ghostBG, 'libitina/ghostbg');
 							libVignette.alpha = 0.001;
 							libVignette.visible = false;
 							staticshock.alpha = 1;
@@ -7697,17 +7697,17 @@ class PlayState extends MusicBeatState
 						case 1984:
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							eyeBG.alpha = 0.001;
-							destruirsprites(eyeBG, 'libitina/eyebg', 'doki');
+							destruirsprites(eyeBG, 'libitina/eyebg');
 							eyeShadow.alpha = 0.001;
-							destruirsprites(eyeShadow, 'libitina/EyeShadow', 'doki');
+							destruirsprites(eyeShadow, 'libitina/EyeShadow');
 							eyeMidwayBG.alpha = 0.001;
-							destruirsprites(eyeMidwayBG, 'libitina/EyeMidwayBG', 'doki');
+							destruirsprites(eyeMidwayBG, 'libitina/EyeMidwayBG');
 							infoBG.alpha = 1;
 							infoBG.visible = true;
 						case 2240:
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							infoBG.alpha = 0.001;
-							destruirsprites(infoBG, 'libitina/InfoMidwayBG', 'doki');
+							destruirsprites(infoBG, 'libitina/InfoMidwayBG');
 							infoBG2.visible = true;
 							infoBG2.alpha = 1;
 						case 2480:
@@ -7715,7 +7715,7 @@ class PlayState extends MusicBeatState
 						case 2496:
 							camGame2.fade(FlxColor.WHITE, 0.2, true);
 							infoBG2.alpha = 0.001;
-							destruirsprites(infoBG2, 'libitina/InfoMidwayBGInvert', 'doki');
+							destruirsprites(infoBG2, 'libitina/InfoMidwayBGInvert');
 							crackBGLE.alpha = 1;
 							crackBGLE.visible = true;
 
@@ -7741,10 +7741,10 @@ class PlayState extends MusicBeatState
 						case 3008:
 							camGame2.fade(FlxColor.WHITE, 0, false);
 							boyfriend.alpha = 0.001;
-							destruirsprites(libiWindow, 'libitina/bigwindow', 'doki');
+							destruirsprites(libiWindow, 'libitina/bigwindow');
 
 							crackBGLE.alpha = 0.001;
-							destruirsprites(crackBGLE, 'libitina/crackbg', 'doki');
+							destruirsprites(crackBGLE, 'libitina/crackbg');
 
 							noteCam = false;
 							camZooming = false;
@@ -7752,7 +7752,7 @@ class PlayState extends MusicBeatState
 							camGame2.zoom = defaultCamZoom;
 							camHUD.zoom = defaultHudZoom;
 
-							libVignette.loadGraphic(Paths.image('libitina/vignette', 'doki'));
+							libVignette.loadGraphic(Paths.image('libitina/vignette'));
 							libFinaleBG.alpha = 1;
 							libFinaleBG.visible = true;
 							libGhost.alpha = 1;
@@ -7780,13 +7780,13 @@ class PlayState extends MusicBeatState
 								onComplete: function(tween:FlxTween)
 								{
 									libFinaleBG.alpha = 0.001;
-									destruirsprites(libFinaleBG, 'libitina/finale/FinaleBG', 'doki');
+									destruirsprites(libFinaleBG, 'libitina/finale/FinaleBG');
 									libGhost.alpha = 0.001;
-									destruirsprites(libGhost, 'libitina/finale/LibiFinaleDramatic', 'doki');
+									destruirsprites(libGhost, 'libitina/finale/LibiFinaleDramatic');
 									libParty.alpha = 0.001;
-									destruirsprites(libParty, 'libitina/finale/GOONS1', 'doki');
+									destruirsprites(libParty, 'libitina/finale/GOONS1');
 									libRockIs.alpha = 0.001;
-									destruirsprites(libRockIs, 'libitina/finale/GOONS2', 'doki');
+									destruirsprites(libRockIs, 'libitina/finale/GOONS2');
 								}
 							});
 						case 3648:
@@ -7805,7 +7805,7 @@ class PlayState extends MusicBeatState
 							deskBG2.loadGraphic(Paths.image('libitina/outroscreen', 'doki'));
 							camHUD.alpha = 0.001;
 							libFinale.alpha = 0.001;
-							destruirsprites(libFinale, 'libitina/finale/Finale2', 'doki');
+							destruirsprites(libFinale, 'libitina/finale/Finale2');
 							deskBG2.alpha = 1;
 							deskBG2.visible = true;
 						case 3711:
@@ -7827,19 +7827,19 @@ class PlayState extends MusicBeatState
 
 							deskBG2.alpha = 0.001;
 							deskBG2.visible = false;
-							destruirsprites(deskBG2, 'libitina/introscreen', 'doki');
+							destruirsprites(deskBG2, 'libitina/introscreen');
 							libFinaleOverlay.alpha = 0.001;
-							destruirsprites(libFinaleOverlay, 'libitina/finale/ShesWatching', 'doki');
+							destruirsprites(libFinaleOverlay, 'libitina/finale/ShesWatching');
 						case 3760:
 							camGame2.fade(FlxColor.WHITE, 0.3, true);
 							metadataDisplay.visible = false;
 							camHUD.alpha = 0.001;
 							deskBG1.alpha = 0.001;
-							destruirsprites(deskBG1, 'libitina/outrodesk', 'doki');
+							destruirsprites(deskBG1, 'libitina/outrodesk');
 
 							if (!SaveData.lowEnd){
 								rainBG.alpha = 0.001;
-								destruirsprites(rainBG, 'libitina/chuva', 'doki');
+								destruirsprites(rainBG, 'libitina/chuva');
 							}
 					}
 			}
@@ -8243,7 +8243,7 @@ class PlayState extends MusicBeatState
 						if (dokiBackdrop != null){
 							FlxTween.tween(dokiBackdrop, {alpha: 0.001}, CoolUtil.calcSectionLength(0.5), {ease: FlxEase.sineOut,
 								onComplete: function(twn:FlxTween){
-									destruirsprites(dokiBackdrop, 'backdropsmenu/backdropcatfight', 'preload');
+									destruirsprites(dokiBackdrop, 'backdropsmenu/backdropcatfight');
 								}
 							});
 						}

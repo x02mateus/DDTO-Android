@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxDestroyUtil;
 import openfl.system.System;
 import flixel.FlxG;
 import flixel.graphics.frames.FlxAtlasFrames;
@@ -243,12 +244,12 @@ class Paths
 		return returnSound('music', key, library, true);
 	}
 
-	inline static public function voices(song:String):Any
+	inline static public function voices(song:String, ?prefix:String = '', ?suffix:String = ''):Any
 	{
 		#if html5
-		return 'songs:assets/songs/${formatToSongPath(song)}/Voices.$SOUND_EXT';
+		return 'songs:assets/songs/${song.toLowerCase()}/${prefix}Voices${suffix}.$SOUND_EXT';
 		#else
-		var songKey:String = '${formatToSongPath(song)}/Voices';
+		var songKey:String = '${song.toLowerCase()}/${prefix}Voices${suffix}';
 		var voices = returnSound('songs', songKey);
 		return voices;
 		#end
@@ -306,10 +307,10 @@ class Paths
 		var path:String = getPath('images/$key.png', IMAGE, library);
 		if (OpenFlAssets.exists(path))
 		{
-			if (!currentTrackedAssets["graphics"].exists(path)) //Talvez essa segunda parte não seja usada mas né?
+			if (!currentTrackedAssets.exists(key))
 			{
-				var graphic:FlxGraphic;
-				var bitmapData:BitmapData = OpenFlAssets.getBitmapData(path);
+				var bitmap:BitmapData = OpenFlAssets.getBitmapData(path, false);
+				var graphic:FlxGraphic = null;
 
 				openfl.display.FPS.curMemChecker();
 
